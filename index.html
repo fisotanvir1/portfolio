@@ -651,6 +651,16 @@ body.menu-open{overflow:hidden}
 }
 .portrait-frame i{font-size:2.6rem;color:rgba(var(--accent-rgb),.75)}
 .portrait-frame p{font-size:.8rem;color:var(--muted);margin:0;max-width:24ch}
+/* ADDED: profile photo fills the 4:5 frame without distortion */
+.portrait-frame img{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  border-radius:inherit;
+  z-index:0;
+}
+/* Ensure gradient overlay paints above the image */
+.portrait-frame::after{z-index:1}
 
 .floating-card{
   position:absolute;padding:.75rem 1rem;border-radius:var(--radius-sm);
@@ -661,6 +671,7 @@ body.menu-open{overflow:hidden}
   display:flex;align-items:center;gap:.6rem;
   font-size:.78rem;font-weight:500;color:var(--text-soft);
   animation:float 6s ease-in-out infinite;
+  z-index:2;
 }
 .floating-card i{color:var(--accent);font-size:.9rem}
 .floating-card--tl{top:6%;left:-6%}
@@ -704,6 +715,13 @@ body.menu-open{overflow:hidden}
 }
 .about__visual i{font-size:2.4rem;color:rgba(var(--accent-rgb),.7)}
 .about__visual p{font-size:.8rem;color:var(--muted);margin:0;max-width:22ch}
+/* ADDED: about photo fills the visual card */
+.about__visual img{
+  width:100%;height:100%;
+  object-fit:cover;
+  border-radius:inherit;
+  display:block;
+}
 
 .about__name{
   font-family:var(--font-head);font-size:.9rem;
@@ -867,6 +885,7 @@ body.menu-open{overflow:hidden}
   color:#fff;font-size:1.2rem;
   opacity:0;transition:opacity var(--dur) var(--ease);
   pointer-events:none;
+  z-index:2;
 }
 .work-card__thumb:hover::after,.work-card__thumb:focus-visible::after{opacity:1}
 .work-card__thumb:focus-visible{outline:2px solid var(--accent);outline-offset:-3px}
@@ -878,6 +897,7 @@ body.menu-open{overflow:hidden}
   padding:.3rem .6rem;border-radius:var(--radius-pill);
   background:var(--label-bg);border:1px solid var(--border-2);
   color:var(--muted);backdrop-filter:blur(8px);
+  z-index:3;
 }
 
 .work-card__body{
@@ -1304,9 +1324,8 @@ body.menu-open{overflow:hidden}
 
 <!-- ============================================================
      SECTION START: HEADER / NAVIGATION
-     The logo is at the far top-right. Place your transparent PNG
-     at assets/logo.png (recommended 96×96 or larger, square).
-     Until the file exists, a "T" fallback tile is shown.
+     Logo now loads ./logo.png from the repository root.
+     Fallback "T" tile shows if the file is missing.
      ============================================================ -->
 <header class="header" id="header">
   <div class="container header__inner">
@@ -1366,11 +1385,10 @@ body.menu-open{overflow:hidden}
       </a>
     </nav>
 
-    <!-- LOGO — replace assets/logo.png with your transparent PNG.
-         Suggested size: 96×96 or larger. The onerror fallback shows
-         a "T" tile while the file is missing. -->
+    <!-- LOGO: file must live at ./logo.png (repository root).
+         Fallback "T" tile appears if the file is missing. -->
     <a href="#home" class="header-logo" aria-label="Tanvir — home">
-      <img src="assets/logo.png" alt="Tanvir logo" width="48" height="48"
+      <img src="./logo.png" alt="Tanvir logo" width="48" height="48"
            onerror="this.style.display='none';this.nextElementSibling.style.display='grid';">
       <span class="header-logo__fallback" aria-hidden="true">T</span>
     </a>
@@ -1438,9 +1456,9 @@ body.menu-open{overflow:hidden}
     </div>
 
     <div class="hero__visual">
+      <!-- FIXED: real profile photo from ./profile.png (was: <i> + <p data-i18n="hero.portrait">) -->
       <div class="portrait-frame">
-        <i class="fa-regular fa-user" aria-hidden="true"></i>
-        <p data-i18n="hero.portrait">Portrait placeholder — replace with your own photo (assets/tanvir-portrait.jpg)</p>
+        <img src="./profile.png" alt="Portrait of MD Tanvirul Islam (Tanvir)" width="760" height="950" loading="eager">
       </div>
       <div class="floating-card floating-card--tl" aria-hidden="true">
         <i class="fa-solid fa-table-cells"></i> <span data-i18n="hero.float1">Spreadsheets</span>
@@ -1470,11 +1488,9 @@ body.menu-open{overflow:hidden}
   <div class="container">
     <div class="about__grid">
 
+      <!-- FIXED: real profile photo from ./profile.png (was: .about__visual-inner with placeholder text) -->
       <div class="about__visual" data-reveal>
-        <div class="about__visual-inner">
-          <i class="fa-regular fa-image" aria-hidden="true"></i>
-          <p data-i18n="about.imgPlaceholder">Image placeholder — add your photo here (assets/tanvir-about.jpg)</p>
-        </div>
+        <img src="./profile.png" alt="MD Tanvirul Islam (Tanvir)" width="600" height="600" loading="lazy">
       </div>
 
       <div data-reveal>
@@ -1700,7 +1716,8 @@ body.menu-open{overflow:hidden}
 
 <!-- ============================================================
      SECTION START: PORTFOLIO SECTION
-     Thumbnails are now buttons — click to open the lightbox.
+     All six thumbnails now use real <img> tags sourced from the
+     repository root. The existing lightbox picks them up.
      ============================================================ -->
 <section class="section" id="portfolio">
   <div class="container">
@@ -1725,9 +1742,10 @@ body.menu-open{overflow:hidden}
 
     <div class="portfolio__grid" id="portfolioGrid">
 
+      <!-- FIXED: Spreadsheet Formatting → ./spreadsheet-formatting.png -->
       <article class="work-card" data-category="spreadsheet" data-reveal>
         <button type="button" class="work-card__thumb" aria-label="Preview: Spreadsheet Formatting">
-          <i class="fa-solid fa-table-cells" aria-hidden="true"></i>
+          <img src="./spreadsheet-formatting.png" alt="Spreadsheet formatting sample: raw data turned into a clean, filterable sheet" width="640" height="400" loading="lazy">
           <span class="work-card__label" data-i18n="portfolio.sample">Sample placeholder</span>
         </button>
         <div class="work-card__body">
@@ -1741,9 +1759,10 @@ body.menu-open{overflow:hidden}
         </div>
       </article>
 
+      <!-- FIXED: Web Research Sample → ./web-research-sample.png -->
       <article class="work-card" data-category="research" data-reveal>
         <button type="button" class="work-card__thumb" aria-label="Preview: Web Research Sample">
-          <i class="fa-solid fa-magnifying-glass-chart" aria-hidden="true"></i>
+          <img src="./web-research-sample.png" alt="Web research sample: public information organised by topic" width="640" height="400" loading="lazy">
           <span class="work-card__label" data-i18n="portfolio.sample">Sample placeholder</span>
         </button>
         <div class="work-card__body">
@@ -1757,9 +1776,10 @@ body.menu-open{overflow:hidden}
         </div>
       </article>
 
+      <!-- FIXED: Document Formatting → ./document-formatting.png -->
       <article class="work-card" data-category="document" data-reveal>
         <button type="button" class="work-card__thumb" aria-label="Preview: Document Formatting">
-          <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
+          <img src="./document-formatting.png" alt="Document formatting sample: report with consistent headings, spacing and layout" width="640" height="400" loading="lazy">
           <span class="work-card__label" data-i18n="portfolio.sample">Sample placeholder</span>
         </button>
         <div class="work-card__body">
@@ -1773,9 +1793,10 @@ body.menu-open{overflow:hidden}
         </div>
       </article>
 
+      <!-- FIXED: Canva Social Media Design → ./social-media-design.png -->
       <article class="work-card" data-category="canva" data-reveal>
         <button type="button" class="work-card__thumb" aria-label="Preview: Canva Social Media Design">
-          <i class="fa-solid fa-share-nodes" aria-hidden="true"></i>
+          <img src="./social-media-design.png" alt="Canva social media design sample: a set of matching social media posts" width="640" height="400" loading="lazy">
           <span class="work-card__label" data-i18n="portfolio.sample">Sample placeholder</span>
         </button>
         <div class="work-card__body">
@@ -1788,9 +1809,10 @@ body.menu-open{overflow:hidden}
         </div>
       </article>
 
+      <!-- FIXED: Canva Banner or Thumbnail → ./banner-thumbnail-design.png -->
       <article class="work-card" data-category="canva" data-reveal>
         <button type="button" class="work-card__thumb" aria-label="Preview: Canva Banner or Thumbnail">
-          <i class="fa-solid fa-image" aria-hidden="true"></i>
+          <img src="./banner-thumbnail-design.png" alt="Canva banner and thumbnail design sample" width="640" height="400" loading="lazy">
           <span class="work-card__label" data-i18n="portfolio.sample">Sample placeholder</span>
         </button>
         <div class="work-card__body">
@@ -1803,9 +1825,10 @@ body.menu-open{overflow:hidden}
         </div>
       </article>
 
+      <!-- FIXED: Data Entry Sample → ./data-entry-sample.png -->
       <article class="work-card" data-category="data-entry" data-reveal>
         <button type="button" class="work-card__thumb" aria-label="Preview: Data Entry Sample">
-          <i class="fa-solid fa-keyboard" aria-hidden="true"></i>
+          <img src="./data-entry-sample.png" alt="Data entry sample: records entered into a structured spreadsheet" width="640" height="400" loading="lazy">
           <span class="work-card__label" data-i18n="portfolio.sample">Sample placeholder</span>
         </button>
         <div class="work-card__body">
@@ -1877,7 +1900,6 @@ body.menu-open{overflow:hidden}
 
 <!-- ============================================================
      SECTION START: CONTACT SECTION
-     Facebook and WhatsApp links are set from SITE_CONFIG in JS.
      ============================================================ -->
 <section class="section" id="contact">
   <div class="container">
@@ -1925,8 +1947,6 @@ body.menu-open{overflow:hidden}
 
       <!-- ============================================================
            SECTION START: FORMSPREE CONTACT FORM
-           Subject field has been removed as requested.
-           Hidden _subject stays for the email notification subject.
            ============================================================ -->
       <form class="contact-form"
             id="contactForm"
@@ -2128,10 +2148,9 @@ const isPlaceholder = (v) => typeof v === 'string' && v.indexOf('REPLACE_WITH_')
    JS SECTION: TRANSLATIONS (i18n)
    ------------------------------------------------------------
    English and Bengali are fully translated.
-   Other languages are listed in the selector but not yet
-   translated — picking one shows a notice and reverts.
-   To add a new language: copy the "en" block, translate the
-   values, and add the language code to I18N below.
+   The 'hero.portrait' and 'about.imgPlaceholder' keys remain in
+   the packs for backward compatibility but are no longer used by
+   the HTML (real <img> elements now replace those placeholders).
    ============================================================ */
 const I18N = {
   en: {
@@ -2265,7 +2284,7 @@ const I18N = {
     'footer.copyright': 'MD Tanvirul Islam (Tanvir). All rights reserved.',
     'footer.built': 'Built with HTML, CSS &amp; vanilla JavaScript.',
 
-    'lightbox.placeholder': 'Sample placeholder — no image file provided yet. Add assets/your-project.jpg inside this card to display a real image here.',
+    'lightbox.placeholder': 'Sample placeholder — no image file provided yet. Add a real image inside this card to display it here.',
     'lightbox.close': 'Close preview',
     'lightbox.prev': 'Previous project',
     'lightbox.next': 'Next project'
@@ -2402,7 +2421,7 @@ const I18N = {
     'footer.copyright': 'এমডি তানভীরুল ইসলাম (তানভীর)। সর্বস্বত্ব সংরক্ষিত।',
     'footer.built': 'HTML, CSS ও ভ্যানিলা JavaScript দিয়ে তৈরি।',
 
-    'lightbox.placeholder': 'নমুনা প্লেসহোল্ডার — এখনও কোনও ছবি ফাইল দেওয়া হয়নি। এখানে একটি প্রকৃত ছবি প্রদর্শন করতে এই কার্ডে assets/your-project.jpg যোগ করুন।',
+    'lightbox.placeholder': 'নমুনা প্লেসহোল্ডার — এখনও কোনও ছবি ফাইল দেওয়া হয়নি। এখানে একটি প্রকৃত ছবি প্রদর্শন করতে এই কার্ডে একটি ছবি যোগ করুন।',
     'lightbox.close': 'প্রিভিউ বন্ধ করুন',
     'lightbox.prev': 'পূর্ববর্তী প্রকল্প',
     'lightbox.next': 'পরবর্তী প্রকল্প'
@@ -2484,18 +2503,15 @@ function t(key) {
     } else {
       root.removeAttribute('data-theme');
     }
-    // Update theme-color meta
     if (metaColor) {
       const isLightNow = (mode === 'light') || (mode === 'system' && systemIsLight());
       metaColor.setAttribute('content', isLightNow ? '#f7f8fa' : '#040405');
     }
-    // Sync button states
     buttons.forEach(function (b) {
       b.classList.toggle('is-active', b.getAttribute('data-theme-choice') === mode);
     });
   }
 
-  // Wire up buttons
   buttons.forEach(function (b) {
     b.addEventListener('click', function () {
       const choice = b.getAttribute('data-theme-choice');
@@ -2504,10 +2520,8 @@ function t(key) {
     });
   });
 
-  // Initial apply
   apply(getStored());
 
-  // Respond to OS theme changes when in system mode
   const mq = window.matchMedia('(prefers-color-scheme: light)');
   const onSystemChange = function () {
     if (getStored() === 'system') apply('system');
@@ -2566,7 +2580,6 @@ function t(key) {
     const lbNext = document.getElementById('lightboxNext');
     if (lbNext) lbNext.setAttribute('aria-label', t('lightbox.next'));
 
-    // If lightbox currently open, refresh its text
     const lb = document.getElementById('lightbox');
     if (lb && lb.classList.contains('is-open')) {
       document.dispatchEvent(new CustomEvent('tanvir:lang-change'));
@@ -2593,7 +2606,6 @@ function t(key) {
     }
   });
 
-  // Initial language: stored → browser → English
   let initial = 'en';
   try {
     const stored = localStorage.getItem(KEY);
@@ -2921,7 +2933,6 @@ function t(key) {
     render();
   }
 
-  // Click on a thumbnail opens the lightbox
   grid.addEventListener('click', function (e) {
     const thumb = e.target.closest('.work-card__thumb');
     if (!thumb) return;
@@ -2933,19 +2944,16 @@ function t(key) {
   prevBtn.addEventListener('click', prev);
   nextBtn.addEventListener('click', next);
 
-  // Click on the backdrop closes
   lb.addEventListener('click', function (e) {
     if (e.target === lb) close();
   });
 
-  // Keyboard controls
   document.addEventListener('keydown', function (e) {
     if (!lb.classList.contains('is-open')) return;
     if (e.key === 'Escape') close();
     else if (e.key === 'ArrowLeft') prev();
     else if (e.key === 'ArrowRight') next();
     else if (e.key === 'Tab') {
-      // Simple focus trap: keep focus within the lightbox
       const focusables = lb.querySelectorAll('button:not([style*="display: none"])');
       if (!focusables.length) return;
       const first = focusables[0];
@@ -2958,7 +2966,6 @@ function t(key) {
     }
   });
 
-  // Re-render if language changes while lightbox is open
   document.addEventListener('tanvir:lang-change', function () {
     if (lb.classList.contains('is-open')) render();
   });
@@ -2967,8 +2974,6 @@ function t(key) {
 
 /* ============================================================
    JS SECTION: CONTACT FORM (FORMSPREE)
-   Subject field has been removed — only name, email, service,
-   budget and message are sent.
    ============================================================ */
 (function contactForm () {
   const form   = document.getElementById('contactForm');
