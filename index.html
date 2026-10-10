@@ -35,7 +35,7 @@
 <!-- PERF: preload the hero LCP image so the browser starts fetching it
      before it reaches the <img> tag. fetchpriority hints are ignored by
      browsers that don't support them, so this is safe. -->
-<link rel="preload" as="image" href="./profile.png" fetchpriority="high">
+<link rel="preload" as="image" type="image/webp" href="./profile.webp" fetchpriority="high">
 
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@500;600;700;800&display=swap"></noscript>
@@ -1293,7 +1293,7 @@ body.menu-open{overflow:hidden}
 
 <!-- ============================================================
      SECTION START: HEADER / NAVIGATION
-     Logo now loads ./logo.png from the repository root.
+     Logo now loads ./logo.webp from the repository root.
      Fallback "T" tile shows if the file is missing.
      ============================================================ -->
 <header class="header" id="header">
@@ -1333,10 +1333,10 @@ body.menu-open{overflow:hidden}
       </a>
     </nav>
 
-    <!-- LOGO: file must live at ./logo.png (repository root).
+    <!-- LOGO: file must live at ./logo.webp (repository root).
          Fallback "T" tile appears if the file is missing. -->
     <a href="#home" class="header-logo" aria-label="Tanvir — home">
-      <img src="./logo.png" alt="Tanvir logo" width="48" height="48" decoding="async"
+      <img src="./logo.webp" alt="Tanvir logo" width="48" height="48" decoding="async"
            onerror="this.style.display='none';this.nextElementSibling.style.display='grid';">
       <span class="header-logo__fallback" aria-hidden="true">T</span>
     </a>
@@ -1407,7 +1407,7 @@ body.menu-open{overflow:hidden}
       <!-- LCP image. fetchpriority="high" tells the browser to fetch it
            earlier; a matching <link rel="preload"> is in <head>. -->
       <div class="portrait-frame">
-        <img src="./profile.png" alt="Portrait of MD Tanvirul Islam (Tanvir)" width="760" height="950" loading="eager" fetchpriority="high" decoding="async">
+        <img src="./profile.webp" alt="Portrait of MD Tanvirul Islam (Tanvir)" width="760" height="950" loading="eager" fetchpriority="high" decoding="async">
       </div>
       <div class="floating-card floating-card--tl" aria-hidden="true">
         <i class="fa-solid fa-table-cells"></i> <span>Spreadsheets</span>
@@ -1438,7 +1438,7 @@ body.menu-open{overflow:hidden}
     <div class="about__grid">
 
       <div class="about__visual" data-reveal>
-        <img src="./profile.png" alt="MD Tanvirul Islam (Tanvir)" width="600" height="600" loading="lazy" decoding="async">
+        <img src="./profile.webp" alt="MD Tanvirul Islam (Tanvir)" width="600" height="600" loading="lazy" decoding="async">
       </div>
 
       <div data-reveal>
@@ -1692,7 +1692,7 @@ body.menu-open{overflow:hidden}
 
       <article class="work-card" data-category="spreadsheet" data-reveal>
         <button type="button" class="work-card__thumb" aria-label="Preview: Spreadsheet Formatting">
-          <img src="./spreadsheet-formatting.png" alt="Spreadsheet formatting sample: raw data turned into a clean, filterable sheet" width="640" height="400" loading="lazy" decoding="async">
+          <img src="./spreadsheet-formatting.webp" alt="Spreadsheet formatting sample: raw data turned into a clean, filterable sheet" width="640" height="400" loading="lazy" decoding="async">
           <span class="work-card__label">Sample placeholder</span>
         </button>
         <div class="work-card__body">
@@ -1708,7 +1708,7 @@ body.menu-open{overflow:hidden}
 
       <article class="work-card" data-category="research" data-reveal>
         <button type="button" class="work-card__thumb" aria-label="Preview: Web Research Sample">
-          <img src="./web-research-sample.png" alt="Web research sample: public information organised by topic" width="640" height="400" loading="lazy" decoding="async">
+          <img src="./web-research-sample.webp" alt="Web research sample: public information organised by topic" width="640" height="400" loading="lazy" decoding="async">
           <span class="work-card__label">Sample placeholder</span>
         </button>
         <div class="work-card__body">
@@ -1724,7 +1724,7 @@ body.menu-open{overflow:hidden}
 
       <article class="work-card" data-category="document" data-reveal>
         <button type="button" class="work-card__thumb" aria-label="Preview: Document Formatting">
-          <img src="./document-formatting.png" alt="Document formatting sample: report with consistent headings, spacing and layout" width="640" height="400" loading="lazy" decoding="async">
+          <img src="./document-formatting.webp" alt="Document formatting sample: report with consistent headings, spacing and layout" width="640" height="400" loading="lazy" decoding="async">
           <span class="work-card__label">Sample placeholder</span>
         </button>
         <div class="work-card__body">
@@ -1740,7 +1740,7 @@ body.menu-open{overflow:hidden}
 
       <article class="work-card" data-category="canva" data-reveal>
         <button type="button" class="work-card__thumb" aria-label="Preview: Canva Social Media Design">
-          <img src="./social-media-design.png" alt="Canva social media design sample: a set of matching social media posts" width="640" height="400" loading="lazy" decoding="async">
+          <img src="./social-media-design.webp" alt="Canva social media design sample: a set of matching social media posts" width="640" height="400" loading="lazy" decoding="async">
           <span class="work-card__label">Sample placeholder</span>
         </button>
         <div class="work-card__body">
@@ -1755,7 +1755,7 @@ body.menu-open{overflow:hidden}
 
       <article class="work-card" data-category="canva" data-reveal>
         <button type="button" class="work-card__thumb" aria-label="Preview: Canva Banner or Thumbnail">
-          <img src="./banner-thumbnail-design.png" alt="Canva banner and thumbnail design sample" width="640" height="400" loading="lazy" decoding="async">
+          <img src="./banner-thumbnail-design.webp" alt="Canva banner and thumbnail design sample" width="640" height="400" loading="lazy" decoding="async">
           <span class="work-card__label">Sample placeholder</span>
         </button>
         <div class="work-card__body">
@@ -1770,7 +1770,7 @@ body.menu-open{overflow:hidden}
 
       <article class="work-card" data-category="data-entry" data-reveal>
         <button type="button" class="work-card__thumb" aria-label="Preview: Data Entry Sample">
-          <img src="./data-entry-sample.png" alt="Data entry sample: records entered into a structured spreadsheet" width="640" height="400" loading="lazy" decoding="async">
+          <img src="./data-entry-sample.webp" alt="Data entry sample: records entered into a structured spreadsheet" width="640" height="400" loading="lazy" decoding="async">
           <span class="work-card__label">Sample placeholder</span>
         </button>
         <div class="work-card__body">
