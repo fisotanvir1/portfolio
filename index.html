@@ -37,8 +37,10 @@
      browsers that don't support them, so this is safe. -->
 <link rel="preload" as="image" href="./profile.png" fetchpriority="high">
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@500;600;700;800&display=swap"></noscript>
+<link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer"></noscript>
 
 <!-- FOUC prevention: apply saved theme + language BEFORE CSS paints -->
 <script>
@@ -48,8 +50,6 @@
     if (t === 'light' || t === 'dark') {
       document.documentElement.setAttribute('data-theme', t);
     }
-    var l = localStorage.getItem('tanvir-lang');
-    if (l) document.documentElement.setAttribute('lang', l);
   } catch (e) { /* private browsing */ }
 })();
 </script>
@@ -427,26 +427,6 @@ body.cursor-ready select{cursor:auto}
 /* Nav controls: language + theme */
 .nav__controls{display:flex;align-items:center;gap:.55rem;flex:0 0 auto}
 
-.lang-wrap{position:relative;display:inline-flex;align-items:center}
-.lang-wrap > i{
-  position:absolute;left:.7rem;top:50%;transform:translateY(-50%);
-  color:var(--muted);font-size:.75rem;pointer-events:none;
-}
-.lang-select{
-  appearance:none;-webkit-appearance:none;
-  padding:.44rem 1.7rem .44rem 1.85rem;
-  background:var(--surface);border:1px solid var(--border-2);
-  border-radius:var(--radius-pill);
-  color:var(--text);font-family:var(--font-body);font-size:.8rem;
-  cursor:pointer;
-  background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238d929c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right .55rem center;background-size:11px;
-  transition:border-color var(--dur) var(--ease), background-color var(--dur) var(--ease);
-}
-.lang-select:hover{border-color:rgba(var(--accent-rgb),.5)}
-.lang-select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.lang-select option{background:var(--select-option-bg);color:var(--select-option-fg)}
-
 .theme-seg{
   display:inline-flex;align-items:center;gap:2px;
   padding:3px;background:var(--surface);
@@ -536,7 +516,6 @@ body.cursor-ready select{cursor:auto}
     border-bottom:1px solid rgba(var(--overlay-rgb),.06);
   }
   .nav__cta{margin-top:.6rem;width:100%;padding:.95rem 1.25rem}
-  .lang-select{font-size:.88rem;padding-top:.55rem;padding-bottom:.55rem}
   .theme-seg button{width:34px;height:34px;font-size:.85rem}
 }
 body.menu-open{overflow:hidden}
@@ -1216,23 +1195,6 @@ body.menu-open{overflow:hidden}
 }
 
 /* ============================================================
-   CSS SECTION: TOAST (language notice)
-   ============================================================ */
-.toast{
-  position:fixed;left:50%;bottom:1.5rem;transform:translate(-50%, 120%);
-  padding:.75rem 1.1rem;border-radius:var(--radius-pill);
-  background:var(--float-card-bg);
-  border:1px solid var(--border-2);
-  color:var(--text);font-size:.85rem;
-  box-shadow:var(--shadow-sm);
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  z-index:1200;max-width:calc(100vw - 2rem);
-  opacity:0;pointer-events:none;
-  transition:opacity .3s var(--ease), transform .35s var(--ease);
-}
-.toast.is-visible{opacity:1;transform:translate(-50%, 0)}
-
-/* ============================================================
    CSS SECTION: SCROLL REVEAL ANIMATIONS
    ============================================================ */
 [data-reveal]{
@@ -1341,38 +1303,17 @@ body.menu-open{overflow:hidden}
 
     <nav class="nav" id="primaryNav" aria-label="Primary navigation">
       <ul class="nav__list">
-        <li><a class="nav__link" href="#home"       data-i18n="nav.home">Home</a></li>
-        <li><a class="nav__link" href="#about"      data-i18n="nav.about">About</a></li>
-        <li><a class="nav__link" href="#services"   data-i18n="nav.services">Services</a></li>
-        <li><a class="nav__link" href="#skills"     data-i18n="nav.skills">Skills</a></li>
-        <li><a class="nav__link" href="#portfolio"  data-i18n="nav.portfolio">Portfolio</a></li>
-        <li><a class="nav__link" href="#process"    data-i18n="nav.process">Process</a></li>
-        <li><a class="nav__link" href="#contact"    data-i18n="nav.contact">Contact</a></li>
+        <li><a class="nav__link" href="#home">Home</a></li>
+        <li><a class="nav__link" href="#about">About</a></li>
+        <li><a class="nav__link" href="#services">Services</a></li>
+        <li><a class="nav__link" href="#skills">Skills</a></li>
+        <li><a class="nav__link" href="#portfolio">Portfolio</a></li>
+        <li><a class="nav__link" href="#process">Process</a></li>
+        <li><a class="nav__link" href="#contact">Contact</a></li>
       </ul>
 
       <!-- Language + theme controls -->
       <div class="nav__controls">
-        <label class="lang-wrap">
-          <i class="fa-solid fa-globe" aria-hidden="true"></i>
-          <select id="langSelect" class="lang-select" aria-label="Language">
-            <option value="en">English</option>
-            <option value="bn">বাংলা</option>
-            <option value="hi">हिन्दी</option>
-            <option value="ar">العربية</option>
-            <option value="es">Español</option>
-            <option value="fr">Français</option>
-            <option value="de">Deutsch</option>
-            <option value="pt">Português</option>
-            <option value="ru">Русский</option>
-            <option value="zh">中文</option>
-            <option value="ja">日本語</option>
-            <option value="ko">한국어</option>
-            <option value="it">Italiano</option>
-            <option value="tr">Türkçe</option>
-            <option value="id">Bahasa Indonesia</option>
-            <option value="ur">اردو</option>
-          </select>
-        </label>
 
         <div class="theme-seg" role="group" aria-label="Colour theme">
           <button type="button" data-theme-choice="system" aria-label="Follow system theme" title="System">
@@ -1387,7 +1328,7 @@ body.menu-open{overflow:hidden}
         </div>
       </div>
 
-      <a href="#contact" class="btn btn--primary nav__cta" data-i18n="nav.talk">
+      <a href="#contact" class="btn btn--primary nav__cta">
         Let's Talk <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
       </a>
     </nav>
@@ -1431,34 +1372,34 @@ body.menu-open{overflow:hidden}
     <div class="hero__content">
       <span class="badge">
         <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
-        <span data-i18n="hero.badge">Data Entry &bull; Web Research &bull; Canva Design</span>
+        <span>Data Entry &bull; Web Research &bull; Canva Design</span>
       </span>
 
-      <h1 class="hero__title" data-i18n-html="hero.title">Hi, I'm <em>Tanvir</em>.</h1>
+      <h1 class="hero__title">Hi, I'm <em>Tanvir</em>.</h1>
 
-      <p class="hero__lead" data-i18n="hero.lead">
+      <p class="hero__lead">
         I help people and businesses organise their information and present it professionally.
       </p>
 
-      <p class="hero__text" data-i18n="hero.text">
+      <p class="hero__text">
         I'm MD Tanvirul Islam. I work with accurate data entry, online research,
         Excel and Google Sheets, clean document formatting, and Canva design —
         so your records stay tidy and your visuals look polished.
       </p>
 
       <div class="hero__actions">
-        <a href="#portfolio" class="btn btn--primary" data-i18n="hero.ctaPrimary">
+        <a href="#portfolio" class="btn btn--primary">
           Explore My Work <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
         </a>
-        <a href="#contact" class="btn btn--ghost" data-i18n="hero.ctaSecondary">
+        <a href="#contact" class="btn btn--ghost">
           Contact Me <i class="fa-regular fa-envelope" aria-hidden="true"></i>
         </a>
       </div>
 
       <ul class="hero__meta">
-        <li class="chip"><i class="fa-solid fa-check" aria-hidden="true"></i> <span data-i18n="hero.chip1">Detail focused</span></li>
-        <li class="chip"><i class="fa-solid fa-check" aria-hidden="true"></i> <span data-i18n="hero.chip2">Clear communication</span></li>
-        <li class="chip"><i class="fa-solid fa-check" aria-hidden="true"></i> <span data-i18n="hero.chip3">Organised delivery</span></li>
+        <li class="chip"><i class="fa-solid fa-check" aria-hidden="true"></i> <span>Detail focused</span></li>
+        <li class="chip"><i class="fa-solid fa-check" aria-hidden="true"></i> <span>Clear communication</span></li>
+        <li class="chip"><i class="fa-solid fa-check" aria-hidden="true"></i> <span>Organised delivery</span></li>
       </ul>
     </div>
 
@@ -1469,10 +1410,10 @@ body.menu-open{overflow:hidden}
         <img src="./profile.png" alt="Portrait of MD Tanvirul Islam (Tanvir)" width="760" height="950" loading="eager" fetchpriority="high" decoding="async">
       </div>
       <div class="floating-card floating-card--tl" aria-hidden="true">
-        <i class="fa-solid fa-table-cells"></i> <span data-i18n="hero.float1">Spreadsheets</span>
+        <i class="fa-solid fa-table-cells"></i> <span>Spreadsheets</span>
       </div>
       <div class="floating-card floating-card--br" aria-hidden="true">
-        <i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="hero.float2">Canva Design</span>
+        <i class="fa-solid fa-wand-magic-sparkles"></i> <span>Canva Design</span>
       </div>
     </div>
 
@@ -1480,7 +1421,7 @@ body.menu-open{overflow:hidden}
 
   <div class="container">
     <a href="#about" class="scroll-hint" aria-label="Scroll to the About section">
-      <i class="fa-solid fa-arrow-down" aria-hidden="true"></i> <span data-i18n="hero.scroll">Scroll to explore</span>
+      <i class="fa-solid fa-arrow-down" aria-hidden="true"></i> <span>Scroll to explore</span>
     </a>
   </div>
 </section>
@@ -1501,33 +1442,33 @@ body.menu-open{overflow:hidden}
       </div>
 
       <div data-reveal>
-        <span class="eyebrow" data-i18n="about.eyebrow">About Me</span>
-        <p class="about__name" data-i18n="about.name">MD Tanvirul Islam &mdash; Tanvir</p>
-        <h2 class="section-title" data-i18n="about.title">Organised information, presented properly.</h2>
+        <span class="eyebrow">About Me</span>
+        <p class="about__name">MD Tanvirul Islam &mdash; Tanvir</p>
+        <h2 class="section-title">Organised information, presented properly.</h2>
 
-        <p data-i18n="about.p1">
+        <p>
           I'm Tanvir, a freelancer focused on helping people and small businesses
           keep their information organised and their materials looking professional.
           Whether it's moving data into a spreadsheet, researching information online,
           tidying up a document, or designing a simple graphic in Canva — I aim for
           clean, accurate and easy-to-use results.
         </p>
-        <p data-i18n="about.p2">
+        <p>
           I care about the details: consistent formatting, readable layouts, and
           clear communication throughout a project. You tell me what you need,
           and I'll do my best to deliver it in a neat, usable form.
         </p>
 
         <ul class="about__list">
-          <li><i class="fa-solid fa-database" aria-hidden="true"></i> <span data-i18n="about.li1">Data entry &amp; record organisation</span></li>
-          <li><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> <span data-i18n="about.li2">Web research &amp; information gathering</span></li>
-          <li><i class="fa-solid fa-table" aria-hidden="true"></i> <span data-i18n="about.li3">Excel &amp; Google Sheets work</span></li>
-          <li><i class="fa-solid fa-file-lines" aria-hidden="true"></i> <span data-i18n="about.li4">Document formatting</span></li>
-          <li><i class="fa-solid fa-palette" aria-hidden="true"></i> <span data-i18n="about.li5">Canva visual design</span></li>
-          <li><i class="fa-solid fa-list-check" aria-hidden="true"></i> <span data-i18n="about.li6">Structured, tidy delivery</span></li>
+          <li><i class="fa-solid fa-database" aria-hidden="true"></i> <span>Data entry &amp; record organisation</span></li>
+          <li><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> <span>Web research &amp; information gathering</span></li>
+          <li><i class="fa-solid fa-table" aria-hidden="true"></i> <span>Excel &amp; Google Sheets work</span></li>
+          <li><i class="fa-solid fa-file-lines" aria-hidden="true"></i> <span>Document formatting</span></li>
+          <li><i class="fa-solid fa-palette" aria-hidden="true"></i> <span>Canva visual design</span></li>
+          <li><i class="fa-solid fa-list-check" aria-hidden="true"></i> <span>Structured, tidy delivery</span></li>
         </ul>
 
-        <a href="#contact" class="btn btn--primary" data-i18n="about.cta">
+        <a href="#contact" class="btn btn--primary">
           Contact Me <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
         </a>
       </div>
@@ -1547,63 +1488,63 @@ body.menu-open{overflow:hidden}
   <div class="container">
 
     <div class="section-head section-head--center" data-reveal>
-      <span class="eyebrow" data-i18n="services.eyebrow">Services</span>
-      <h2 class="section-title" data-i18n="services.title">What I can help you with</h2>
-      <p class="section-sub" data-i18n="services.subtitle">Practical support for data, research, documents and simple visual design.</p>
+      <span class="eyebrow">Services</span>
+      <h2 class="section-title">What I can help you with</h2>
+      <p class="section-sub">Practical support for data, research, documents and simple visual design.</p>
     </div>
 
     <div class="services__grid">
 
       <article class="service-card" data-reveal>
         <div class="service-card__icon"><i class="fa-solid fa-keyboard" aria-hidden="true"></i></div>
-        <h3 data-i18n="services.s1.title">Data Entry</h3>
-        <p data-i18n="services.s1.desc">Accurate entry of information into spreadsheets, documents or online forms. I transfer data carefully, keep records consistent, and organise entries so they are easy to search, sort and update later.</p>
-        <a href="#contact" class="service-card__link js-service-link" data-service="Data Entry" data-i18n="services.linkText">
+        <h3>Data Entry</h3>
+        <p>Accurate entry of information into spreadsheets, documents or online forms. I transfer data carefully, keep records consistent, and organise entries so they are easy to search, sort and update later.</p>
+        <a href="#contact" class="service-card__link js-service-link" data-service="Data Entry">
           Discuss This Service <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
         </a>
       </article>
 
       <article class="service-card" data-reveal>
         <div class="service-card__icon"><i class="fa-solid fa-magnifying-glass-chart" aria-hidden="true"></i></div>
-        <h3 data-i18n="services.s2.title">Data Mining &amp; Web Research</h3>
-        <p data-i18n="services.s2.desc">Online research and information gathering from relevant public sources. I collect the details you need — such as names, contact information, prices or listings — and organise the findings into a clear, usable format.</p>
-        <a href="#contact" class="service-card__link js-service-link" data-service="Data Mining &amp; Web Research" data-i18n="services.linkText">
+        <h3>Data Mining &amp; Web Research</h3>
+        <p>Online research and information gathering from relevant public sources. I collect the details you need — such as names, contact information, prices or listings — and organise the findings into a clear, usable format.</p>
+        <a href="#contact" class="service-card__link js-service-link" data-service="Data Mining &amp; Web Research">
           Discuss This Service <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
         </a>
       </article>
 
       <article class="service-card" data-reveal>
         <div class="service-card__icon"><i class="fa-solid fa-table-cells" aria-hidden="true"></i></div>
-        <h3 data-i18n="services.s3.title">Excel &amp; Google Sheets</h3>
-        <p data-i18n="services.s3.desc">Spreadsheet organisation and structuring: sorting, filtering, basic formulas, consistent column layouts and clear headings so your data is simple to read and work with.</p>
-        <a href="#contact" class="service-card__link js-service-link" data-service="Excel &amp; Google Sheets" data-i18n="services.linkText">
+        <h3>Excel &amp; Google Sheets</h3>
+        <p>Spreadsheet organisation and structuring: sorting, filtering, basic formulas, consistent column layouts and clear headings so your data is simple to read and work with.</p>
+        <a href="#contact" class="service-card__link js-service-link" data-service="Excel &amp; Google Sheets">
           Discuss This Service <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
         </a>
       </article>
 
       <article class="service-card" data-reveal>
         <div class="service-card__icon"><i class="fa-solid fa-table-list" aria-hidden="true"></i></div>
-        <h3 data-i18n="services.s4.title">Spreadsheet Data Entry &amp; Formatting</h3>
-        <p data-i18n="services.s4.desc">Clean spreadsheet layouts with consistent formatting, readable columns, aligned text, and organised records — so your sheet looks tidy and is straightforward to maintain.</p>
-        <a href="#contact" class="service-card__link js-service-link" data-service="Spreadsheet Data Entry &amp; Formatting" data-i18n="services.linkText">
+        <h3>Spreadsheet Data Entry &amp; Formatting</h3>
+        <p>Clean spreadsheet layouts with consistent formatting, readable columns, aligned text, and organised records — so your sheet looks tidy and is straightforward to maintain.</p>
+        <a href="#contact" class="service-card__link js-service-link" data-service="Spreadsheet Data Entry &amp; Formatting">
           Discuss This Service <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
         </a>
       </article>
 
       <article class="service-card" data-reveal>
         <div class="service-card__icon"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></div>
-        <h3 data-i18n="services.s5.title">Document Formatting</h3>
-        <p data-i18n="services.s5.desc">Professional formatting for documents and reports: consistent headings, spacing, fonts, alignment and page layout, so your material looks neat and is easy to read.</p>
-        <a href="#contact" class="service-card__link js-service-link" data-service="Document Formatting" data-i18n="services.linkText">
+        <h3>Document Formatting</h3>
+        <p>Professional formatting for documents and reports: consistent headings, spacing, fonts, alignment and page layout, so your material looks neat and is easy to read.</p>
+        <a href="#contact" class="service-card__link js-service-link" data-service="Document Formatting">
           Discuss This Service <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
         </a>
       </article>
 
       <article class="service-card" data-reveal>
         <div class="service-card__icon"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i></div>
-        <h3 data-i18n="services.s6.title">Canva Design</h3>
-        <p data-i18n="services.s6.desc">Visual content created in Canva: social media posts, promotional graphics, banners and covers, YouTube thumbnails, posters, presentation slides and other simple marketing designs — built around your text, colours and style.</p>
-        <a href="#contact" class="service-card__link js-service-link" data-service="Canva Design" data-i18n="services.linkText">
+        <h3>Canva Design</h3>
+        <p>Visual content created in Canva: social media posts, promotional graphics, banners and covers, YouTube thumbnails, posters, presentation slides and other simple marketing designs — built around your text, colours and style.</p>
+        <a href="#contact" class="service-card__link js-service-link" data-service="Canva Design">
           Discuss This Service <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
         </a>
       </article>
@@ -1623,9 +1564,9 @@ body.menu-open{overflow:hidden}
   <div class="container">
 
     <div class="section-head section-head--center" data-reveal>
-      <span class="eyebrow" data-i18n="skills.eyebrow">Skills</span>
-      <h2 class="section-title" data-i18n="skills.title">Areas I work in</h2>
-      <p class="section-sub" data-i18n="skills.subtitle">A clear view of the tools and tasks I handle day to day.</p>
+      <span class="eyebrow">Skills</span>
+      <h2 class="section-title">Areas I work in</h2>
+      <p class="section-sub">A clear view of the tools and tasks I handle day to day.</p>
     </div>
 
     <div class="skills__grid">
@@ -1633,83 +1574,83 @@ body.menu-open{overflow:hidden}
       <div class="skill-card" data-reveal>
         <div class="skill-card__head">
           <i class="fa-solid fa-database" aria-hidden="true"></i>
-          <h3 data-i18n="skills.c1.title">Data Entry &amp; Organisation</h3>
+          <h3>Data Entry &amp; Organisation</h3>
         </div>
         <div class="tags">
-          <span class="tag" data-i18n="skills.c1.t1">Accurate typing</span>
-          <span class="tag" data-i18n="skills.c1.t2">Record keeping</span>
-          <span class="tag" data-i18n="skills.c1.t3">Copy &amp; paste from PDF</span>
-          <span class="tag" data-i18n="skills.c1.t4">Data cleaning</span>
-          <span class="tag" data-i18n="skills.c1.t5">File organisation</span>
+          <span class="tag">Accurate typing</span>
+          <span class="tag">Record keeping</span>
+          <span class="tag">Copy &amp; paste from PDF</span>
+          <span class="tag">Data cleaning</span>
+          <span class="tag">File organisation</span>
         </div>
       </div>
 
       <div class="skill-card" data-reveal>
         <div class="skill-card__head">
           <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-          <h3 data-i18n="skills.c2.title">Web Research &amp; Information Gathering</h3>
+          <h3>Web Research &amp; Information Gathering</h3>
         </div>
         <div class="tags">
-          <span class="tag" data-i18n="skills.c2.t1">Online research</span>
-          <span class="tag" data-i18n="skills.c2.t2">Public source collection</span>
-          <span class="tag" data-i18n="skills.c2.t3">List building</span>
-          <span class="tag" data-i18n="skills.c2.t4">Fact checking</span>
-          <span class="tag" data-i18n="skills.c2.t5">Summarising findings</span>
+          <span class="tag">Online research</span>
+          <span class="tag">Public source collection</span>
+          <span class="tag">List building</span>
+          <span class="tag">Fact checking</span>
+          <span class="tag">Summarising findings</span>
         </div>
       </div>
 
       <div class="skill-card" data-reveal>
         <div class="skill-card__head">
           <i class="fa-solid fa-table" aria-hidden="true"></i>
-          <h3 data-i18n="skills.c3.title">Excel &amp; Google Sheets</h3>
+          <h3>Excel &amp; Google Sheets</h3>
         </div>
         <div class="tags">
-          <span class="tag" data-i18n="skills.c3.t1">Sorting &amp; filtering</span>
-          <span class="tag" data-i18n="skills.c3.t2">Basic formulas</span>
-          <span class="tag" data-i18n="skills.c3.t3">Column structuring</span>
-          <span class="tag" data-i18n="skills.c3.t4">Formatting</span>
-          <span class="tag" data-i18n="skills.c3.t5">Data cleanup</span>
+          <span class="tag">Sorting &amp; filtering</span>
+          <span class="tag">Basic formulas</span>
+          <span class="tag">Column structuring</span>
+          <span class="tag">Formatting</span>
+          <span class="tag">Data cleanup</span>
         </div>
       </div>
 
       <div class="skill-card" data-reveal>
         <div class="skill-card__head">
           <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
-          <h3 data-i18n="skills.c4.title">Document Formatting</h3>
+          <h3>Document Formatting</h3>
         </div>
         <div class="tags">
-          <span class="tag" data-i18n="skills.c4.t1">Headings &amp; styles</span>
-          <span class="tag" data-i18n="skills.c4.t2">Spacing &amp; alignment</span>
-          <span class="tag" data-i18n="skills.c4.t3">Consistent layout</span>
-          <span class="tag" data-i18n="skills.c4.t4">Reports</span>
-          <span class="tag" data-i18n="skills.c4.t5">PDF cleanup</span>
+          <span class="tag">Headings &amp; styles</span>
+          <span class="tag">Spacing &amp; alignment</span>
+          <span class="tag">Consistent layout</span>
+          <span class="tag">Reports</span>
+          <span class="tag">PDF cleanup</span>
         </div>
       </div>
 
       <div class="skill-card" data-reveal>
         <div class="skill-card__head">
           <i class="fa-solid fa-palette" aria-hidden="true"></i>
-          <h3 data-i18n="skills.c5.title">Canva Design</h3>
+          <h3>Canva Design</h3>
         </div>
         <div class="tags">
-          <span class="tag" data-i18n="skills.c5.t1">Social media posts</span>
-          <span class="tag" data-i18n="skills.c5.t2">Banners &amp; covers</span>
-          <span class="tag" data-i18n="skills.c5.t3">YouTube thumbnails</span>
-          <span class="tag" data-i18n="skills.c5.t4">Posters</span>
-          <span class="tag" data-i18n="skills.c5.t5">Presentations</span>
+          <span class="tag">Social media posts</span>
+          <span class="tag">Banners &amp; covers</span>
+          <span class="tag">YouTube thumbnails</span>
+          <span class="tag">Posters</span>
+          <span class="tag">Presentations</span>
         </div>
       </div>
 
       <div class="skill-card" data-reveal>
         <div class="skill-card__head">
           <i class="fa-solid fa-code" aria-hidden="true"></i>
-          <h3 data-i18n="skills.c6.title">Basic Front-End Web</h3>
+          <h3>Basic Front-End Web</h3>
         </div>
         <div class="tags">
           <span class="tag">HTML5</span>
           <span class="tag">CSS3</span>
           <span class="tag">Vanilla JavaScript</span>
-          <span class="tag" data-i18n="skills.c6.t4">Responsive layout</span>
+          <span class="tag">Responsive layout</span>
         </div>
       </div>
 
@@ -1730,21 +1671,21 @@ body.menu-open{overflow:hidden}
   <div class="container">
 
     <div class="section-head section-head--center" data-reveal>
-      <span class="eyebrow" data-i18n="portfolio.eyebrow">Portfolio</span>
-      <h2 class="section-title" data-i18n="portfolio.title">Sample work previews</h2>
-      <p class="section-sub" data-i18n="portfolio.subtitle">
+      <span class="eyebrow">Portfolio</span>
+      <h2 class="section-title">Sample work previews</h2>
+      <p class="section-sub">
         These are placeholder examples showing the type of work I offer.
         They will be replaced with real samples as they become available.
       </p>
     </div>
 
     <div class="filters" id="portfolioFilters" role="tablist" aria-label="Filter portfolio by category" data-reveal>
-      <button class="filter-btn is-active" type="button" data-filter="all"        role="tab" aria-selected="true"  data-i18n="portfolio.filter.all">All</button>
-      <button class="filter-btn"           type="button" data-filter="data-entry" role="tab" aria-selected="false" data-i18n="portfolio.filter.dataEntry">Data Entry</button>
-      <button class="filter-btn"           type="button" data-filter="spreadsheet" role="tab" aria-selected="false" data-i18n="portfolio.filter.spreadsheet">Spreadsheets</button>
-      <button class="filter-btn"           type="button" data-filter="research"   role="tab" aria-selected="false" data-i18n="portfolio.filter.research">Web Research</button>
-      <button class="filter-btn"           type="button" data-filter="document"   role="tab" aria-selected="false" data-i18n="portfolio.filter.document">Documents</button>
-      <button class="filter-btn"           type="button" data-filter="canva"      role="tab" aria-selected="false" data-i18n="portfolio.filter.canva">Canva Design</button>
+      <button class="filter-btn is-active" type="button" data-filter="all"        role="tab" aria-selected="true">All</button>
+      <button class="filter-btn"           type="button" data-filter="data-entry" role="tab" aria-selected="false">Data Entry</button>
+      <button class="filter-btn"           type="button" data-filter="spreadsheet" role="tab" aria-selected="false">Spreadsheets</button>
+      <button class="filter-btn"           type="button" data-filter="research"   role="tab" aria-selected="false">Web Research</button>
+      <button class="filter-btn"           type="button" data-filter="document"   role="tab" aria-selected="false">Documents</button>
+      <button class="filter-btn"           type="button" data-filter="canva"      role="tab" aria-selected="false">Canva Design</button>
     </div>
 
     <div class="portfolio__grid" id="portfolioGrid">
@@ -1752,12 +1693,12 @@ body.menu-open{overflow:hidden}
       <article class="work-card" data-category="spreadsheet" data-reveal>
         <button type="button" class="work-card__thumb" aria-label="Preview: Spreadsheet Formatting">
           <img src="./spreadsheet-formatting.png" alt="Spreadsheet formatting sample: raw data turned into a clean, filterable sheet" width="640" height="400" loading="lazy" decoding="async">
-          <span class="work-card__label" data-i18n="portfolio.sample">Sample placeholder</span>
+          <span class="work-card__label">Sample placeholder</span>
         </button>
         <div class="work-card__body">
-          <span class="work-card__cat" data-i18n="portfolio.p1.cat">Spreadsheet</span>
-          <h3 data-i18n="portfolio.p1.title">Spreadsheet Formatting</h3>
-          <p data-i18n="portfolio.p1.desc">A tidy sheet layout with clear headings, consistent columns and organised rows.</p>
+          <span class="work-card__cat">Spreadsheet</span>
+          <h3>Spreadsheet Formatting</h3>
+          <p>A tidy sheet layout with clear headings, consistent columns and organised rows.</p>
           <div class="work-card__tools">
             <span class="tag">Google Sheets</span>
             <span class="tag">Excel</span>
@@ -1768,12 +1709,12 @@ body.menu-open{overflow:hidden}
       <article class="work-card" data-category="research" data-reveal>
         <button type="button" class="work-card__thumb" aria-label="Preview: Web Research Sample">
           <img src="./web-research-sample.png" alt="Web research sample: public information organised by topic" width="640" height="400" loading="lazy" decoding="async">
-          <span class="work-card__label" data-i18n="portfolio.sample">Sample placeholder</span>
+          <span class="work-card__label">Sample placeholder</span>
         </button>
         <div class="work-card__body">
-          <span class="work-card__cat" data-i18n="portfolio.p2.cat">Web Research</span>
-          <h3 data-i18n="portfolio.p2.title">Web Research Sample</h3>
-          <p data-i18n="portfolio.p2.desc">Public information collected from online sources and organised into a structured list.</p>
+          <span class="work-card__cat">Web Research</span>
+          <h3>Web Research Sample</h3>
+          <p>Public information collected from online sources and organised into a structured list.</p>
           <div class="work-card__tools">
             <span class="tag">Research</span>
             <span class="tag">Google Sheets</span>
@@ -1784,12 +1725,12 @@ body.menu-open{overflow:hidden}
       <article class="work-card" data-category="document" data-reveal>
         <button type="button" class="work-card__thumb" aria-label="Preview: Document Formatting">
           <img src="./document-formatting.png" alt="Document formatting sample: report with consistent headings, spacing and layout" width="640" height="400" loading="lazy" decoding="async">
-          <span class="work-card__label" data-i18n="portfolio.sample">Sample placeholder</span>
+          <span class="work-card__label">Sample placeholder</span>
         </button>
         <div class="work-card__body">
-          <span class="work-card__cat" data-i18n="portfolio.p3.cat">Document</span>
-          <h3 data-i18n="portfolio.p3.title">Document Formatting</h3>
-          <p data-i18n="portfolio.p3.desc">A report laid out with consistent headings, spacing and readable alignment.</p>
+          <span class="work-card__cat">Document</span>
+          <h3>Document Formatting</h3>
+          <p>A report laid out with consistent headings, spacing and readable alignment.</p>
           <div class="work-card__tools">
             <span class="tag">Word</span>
             <span class="tag">Google Docs</span>
@@ -1800,12 +1741,12 @@ body.menu-open{overflow:hidden}
       <article class="work-card" data-category="canva" data-reveal>
         <button type="button" class="work-card__thumb" aria-label="Preview: Canva Social Media Design">
           <img src="./social-media-design.png" alt="Canva social media design sample: a set of matching social media posts" width="640" height="400" loading="lazy" decoding="async">
-          <span class="work-card__label" data-i18n="portfolio.sample">Sample placeholder</span>
+          <span class="work-card__label">Sample placeholder</span>
         </button>
         <div class="work-card__body">
-          <span class="work-card__cat" data-i18n="portfolio.p4.cat">Canva Design</span>
-          <h3 data-i18n="portfolio.p4.title">Canva Social Media Design</h3>
-          <p data-i18n="portfolio.p4.desc">A simple, clean social post layout built in Canva around a brand's colours.</p>
+          <span class="work-card__cat">Canva Design</span>
+          <h3>Canva Social Media Design</h3>
+          <p>A simple, clean social post layout built in Canva around a brand's colours.</p>
           <div class="work-card__tools">
             <span class="tag">Canva</span>
           </div>
@@ -1815,12 +1756,12 @@ body.menu-open{overflow:hidden}
       <article class="work-card" data-category="canva" data-reveal>
         <button type="button" class="work-card__thumb" aria-label="Preview: Canva Banner or Thumbnail">
           <img src="./banner-thumbnail-design.png" alt="Canva banner and thumbnail design sample" width="640" height="400" loading="lazy" decoding="async">
-          <span class="work-card__label" data-i18n="portfolio.sample">Sample placeholder</span>
+          <span class="work-card__label">Sample placeholder</span>
         </button>
         <div class="work-card__body">
-          <span class="work-card__cat" data-i18n="portfolio.p5.cat">Canva Design</span>
-          <h3 data-i18n="portfolio.p5.title">Canva Banner or Thumbnail</h3>
-          <p data-i18n="portfolio.p5.desc">A bold, readable banner/thumbnail design with strong contrast and clear text.</p>
+          <span class="work-card__cat">Canva Design</span>
+          <h3>Canva Banner or Thumbnail</h3>
+          <p>A bold, readable banner/thumbnail design with strong contrast and clear text.</p>
           <div class="work-card__tools">
             <span class="tag">Canva</span>
           </div>
@@ -1830,12 +1771,12 @@ body.menu-open{overflow:hidden}
       <article class="work-card" data-category="data-entry" data-reveal>
         <button type="button" class="work-card__thumb" aria-label="Preview: Data Entry Sample">
           <img src="./data-entry-sample.png" alt="Data entry sample: records entered into a structured spreadsheet" width="640" height="400" loading="lazy" decoding="async">
-          <span class="work-card__label" data-i18n="portfolio.sample">Sample placeholder</span>
+          <span class="work-card__label">Sample placeholder</span>
         </button>
         <div class="work-card__body">
-          <span class="work-card__cat" data-i18n="portfolio.p6.cat">Data Entry</span>
-          <h3 data-i18n="portfolio.p6.title">Data Entry Sample</h3>
-          <p data-i18n="portfolio.p6.desc">Information transferred accurately from source documents into a structured sheet.</p>
+          <span class="work-card__cat">Data Entry</span>
+          <h3>Data Entry Sample</h3>
+          <p>Information transferred accurately from source documents into a structured sheet.</p>
           <div class="work-card__tools">
             <span class="tag">Excel</span>
             <span class="tag">Google Sheets</span>
@@ -1845,7 +1786,7 @@ body.menu-open{overflow:hidden}
 
     </div>
 
-    <p class="portfolio__note" data-i18n="portfolio.note">
+    <p class="portfolio__note">
       These cards are clearly labelled sample placeholders. No real client project,
       result or testimonial is shown here.
     </p>
@@ -1864,31 +1805,31 @@ body.menu-open{overflow:hidden}
   <div class="container">
 
     <div class="section-head section-head--center" data-reveal>
-      <span class="eyebrow" data-i18n="process.eyebrow">Process</span>
-      <h2 class="section-title" data-i18n="process.title">How we'll work together</h2>
-      <p class="section-sub" data-i18n="process.subtitle">A simple, predictable four-step workflow.</p>
+      <span class="eyebrow">Process</span>
+      <h2 class="section-title">How we'll work together</h2>
+      <p class="section-sub">A simple, predictable four-step workflow.</p>
     </div>
 
     <div class="process__grid">
       <div class="process-step" data-reveal>
         <span class="process-step__num">1</span>
-        <h3 data-i18n="process.s1.title">Discuss the Requirements</h3>
-        <p data-i18n="process.s1.desc">You tell me what you need and I confirm the scope, format and deadline.</p>
+        <h3>Discuss the Requirements</h3>
+        <p>You tell me what you need and I confirm the scope, format and deadline.</p>
       </div>
       <div class="process-step" data-reveal>
         <span class="process-step__num">2</span>
-        <h3 data-i18n="process.s2.title">Review the Information or Materials</h3>
-        <p data-i18n="process.s2.desc">I look through the files, links or data you share and ask any questions early.</p>
+        <h3>Review the Information or Materials</h3>
+        <p>I look through the files, links or data you share and ask any questions early.</p>
       </div>
       <div class="process-step" data-reveal>
         <span class="process-step__num">3</span>
-        <h3 data-i18n="process.s3.title">Complete the Agreed Work</h3>
-        <p data-i18n="process.s3.desc">I carry out the task carefully, keeping the format consistent and organised.</p>
+        <h3>Complete the Agreed Work</h3>
+        <p>I carry out the task carefully, keeping the format consistent and organised.</p>
       </div>
       <div class="process-step" data-reveal>
         <span class="process-step__num">4</span>
-        <h3 data-i18n="process.s4.title">Review and Deliver</h3>
-        <p data-i18n="process.s4.desc">You review the result and I make any reasonable adjustments before final delivery.</p>
+        <h3>Review and Deliver</h3>
+        <p>You review the result and I make any reasonable adjustments before final delivery.</p>
       </div>
     </div>
 
@@ -1907,9 +1848,9 @@ body.menu-open{overflow:hidden}
     <div class="contact__grid">
 
       <div data-reveal>
-        <span class="eyebrow" data-i18n="contact.eyebrow">Contact</span>
-        <h2 class="section-title" data-i18n="contact.title">Let's discuss your project</h2>
-        <p data-i18n="contact.intro">
+        <span class="eyebrow">Contact</span>
+        <h2 class="section-title">Let's discuss your project</h2>
+        <p>
           Have a task in mind — a spreadsheet to organise, some research to gather,
           a document to clean up, or a Canva design to create? Send me a message
           and I'll get back to you as soon as I can.
@@ -1919,7 +1860,7 @@ body.menu-open{overflow:hidden}
           <a class="contact-item" data-contact="email" href="mailto:tanvirofficial105@gmail.com">
             <i class="fa-regular fa-envelope" aria-hidden="true"></i>
             <span>
-              <span data-i18n="contact.emailLabel">Email</span>
+              <span>Email</span>
               <strong>tanvirofficial105@gmail.com</strong>
             </span>
           </a>
@@ -1929,8 +1870,8 @@ body.menu-open{overflow:hidden}
              target="_blank" rel="noopener noreferrer">
             <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
             <span>
-              <span data-i18n="contact.fbLabel">Facebook</span>
-              <strong data-i18n="contact.fbValue">Facebook profile</strong>
+              <span>Facebook</span>
+              <strong>Facebook profile</strong>
             </span>
           </a>
 
@@ -1939,8 +1880,8 @@ body.menu-open{overflow:hidden}
              target="_blank" rel="noopener noreferrer">
             <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
             <span>
-              <span data-i18n="contact.waLabel">WhatsApp</span>
-              <strong data-i18n="contact.waValue">Chat on WhatsApp</strong>
+              <span>WhatsApp</span>
+              <strong>Chat on WhatsApp</strong>
             </span>
           </a>
         </div>
@@ -1960,50 +1901,50 @@ body.menu-open{overflow:hidden}
         <div class="form-grid">
 
           <div class="field">
-            <label for="fullName" data-i18n="form.name">Full name <span class="req" aria-hidden="true">*</span></label>
+            <label for="fullName">Full name <span class="req" aria-hidden="true">*</span></label>
             <input type="text" id="fullName" name="name" placeholder="Your full name"
-                   autocomplete="name" required data-i18n-placeholder="form.namePh">
+                   autocomplete="name" required>
           </div>
 
           <div class="field">
-            <label for="email" data-i18n="form.email">Email address <span class="req" aria-hidden="true">*</span></label>
+            <label for="email">Email address <span class="req" aria-hidden="true">*</span></label>
             <input type="email" id="email" name="email" placeholder="you@example.com"
                    autocomplete="email" required>
           </div>
 
           <div class="field">
-            <label for="service" data-i18n="form.service">Service or project type <span class="req" aria-hidden="true">*</span></label>
+            <label for="service">Service or project type <span class="req" aria-hidden="true">*</span></label>
             <select id="service" name="service" required>
-              <option value="" selected disabled data-i18n="form.servicePh">Select a service…</option>
-              <option value="Data Entry" data-i18n="services.s1.title">Data Entry</option>
-              <option value="Data Mining &amp; Web Research" data-i18n="services.s2.title">Data Mining &amp; Web Research</option>
-              <option value="Excel &amp; Google Sheets" data-i18n="services.s3.title">Excel &amp; Google Sheets</option>
-              <option value="Spreadsheet Data Entry &amp; Formatting" data-i18n="services.s4.title">Spreadsheet Data Entry &amp; Formatting</option>
-              <option value="Document Formatting" data-i18n="services.s5.title">Document Formatting</option>
-              <option value="Canva Design" data-i18n="services.s6.title">Canva Design</option>
-              <option value="Other" data-i18n="form.other">Other</option>
+              <option value="" selected disabled>Select a service…</option>
+              <option value="Data Entry">Data Entry</option>
+              <option value="Data Mining &amp; Web Research">Data Mining &amp; Web Research</option>
+              <option value="Excel &amp; Google Sheets">Excel &amp; Google Sheets</option>
+              <option value="Spreadsheet Data Entry &amp; Formatting">Spreadsheet Data Entry &amp; Formatting</option>
+              <option value="Document Formatting">Document Formatting</option>
+              <option value="Canva Design">Canva Design</option>
+              <option value="Other">Other</option>
             </select>
           </div>
 
           <div class="field">
-            <label for="budget" data-i18n="form.budget">Budget <span style="color:var(--muted);font-weight:400">(optional)</span></label>
+            <label for="budget">Budget <span style="color:var(--muted);font-weight:400">(optional)</span></label>
             <input type="text" id="budget" name="budget" placeholder="e.g. $50 – $150">
           </div>
 
           <div class="field field--full">
-            <label for="message" data-i18n="form.message">Message <span class="req" aria-hidden="true">*</span></label>
+            <label for="message">Message <span class="req" aria-hidden="true">*</span></label>
             <textarea id="message" name="message" rows="6"
                       placeholder="Tell me about your project, the file format you need, and your preferred timeline."
-                      required data-i18n-placeholder="form.messagePh"></textarea>
+                      required></textarea>
           </div>
 
         </div>
 
         <div class="form-foot">
-          <button type="submit" class="btn btn--primary" id="formSubmit" data-i18n="form.submit">
+          <button type="submit" class="btn btn--primary" id="formSubmit">
             Send Message <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
           </button>
-          <p class="form-note" data-i18n="form.note">
+          <p class="form-note">
             Required fields are marked with <span aria-hidden="true">*</span>. Your message is sent
             securely through Formspree and needs an internet connection.
           </p>
@@ -2035,36 +1976,36 @@ body.menu-open{overflow:hidden}
 
       <div>
         <p class="footer__brand">TANVIR<span>.</span></p>
-        <p class="footer__tag" data-i18n="footer.tag">
+        <p class="footer__tag">
           Data entry, web research, spreadsheets, document formatting and Canva design —
           organised work, delivered with care.
         </p>
       </div>
 
       <div>
-        <h4 data-i18n="footer.quick">Quick Links</h4>
+        <h4>Quick Links</h4>
         <nav class="footer__links" aria-label="Footer navigation">
-          <a href="#home"><i class="fa-solid fa-house" aria-hidden="true"></i> <span data-i18n="nav.home">Home</span></a>
-          <a href="#about"><i class="fa-regular fa-user" aria-hidden="true"></i> <span data-i18n="nav.about">About</span></a>
-          <a href="#services"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> <span data-i18n="nav.services">Services</span></a>
-          <a href="#portfolio"><i class="fa-regular fa-images" aria-hidden="true"></i> <span data-i18n="nav.portfolio">Portfolio</span></a>
-          <a href="#contact"><i class="fa-regular fa-envelope" aria-hidden="true"></i> <span data-i18n="nav.contact">Contact</span></a>
+          <a href="#home"><i class="fa-solid fa-house" aria-hidden="true"></i> <span>Home</span></a>
+          <a href="#about"><i class="fa-regular fa-user" aria-hidden="true"></i> <span>About</span></a>
+          <a href="#services"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> <span>Services</span></a>
+          <a href="#portfolio"><i class="fa-regular fa-images" aria-hidden="true"></i> <span>Portfolio</span></a>
+          <a href="#contact"><i class="fa-regular fa-envelope" aria-hidden="true"></i> <span>Contact</span></a>
         </nav>
       </div>
 
       <div>
-        <h4 data-i18n="footer.touch">Get in Touch</h4>
+        <h4>Get in Touch</h4>
         <nav class="footer__links" aria-label="Contact links">
           <a data-contact="email" href="mailto:tanvirofficial105@gmail.com">
-            <i class="fa-regular fa-envelope" aria-hidden="true"></i> <span data-i18n="contact.emailLabel">Email</span>
+            <i class="fa-regular fa-envelope" aria-hidden="true"></i> <span>Email</span>
           </a>
           <a data-contact="facebook" href="https://www.facebook.com/profile.php?id=61575329324296"
              target="_blank" rel="noopener noreferrer">
-            <i class="fa-brands fa-facebook-f" aria-hidden="true"></i> <span data-i18n="contact.fbLabel">Facebook</span>
+            <i class="fa-brands fa-facebook-f" aria-hidden="true"></i> <span>Facebook</span>
           </a>
           <a data-contact="whatsapp" href="https://wa.me/8801770294074"
              target="_blank" rel="noopener noreferrer">
-            <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> <span data-i18n="contact.waLabel">WhatsApp</span>
+            <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> <span>WhatsApp</span>
           </a>
         </nav>
       </div>
@@ -2072,8 +2013,8 @@ body.menu-open{overflow:hidden}
     </div>
 
     <div class="footer__bottom">
-      <p>&copy; <span id="year">2025</span> <span data-i18n="footer.copyright">MD Tanvirul Islam (Tanvir). All rights reserved.</span></p>
-      <p data-i18n="footer.built">Built with HTML, CSS &amp; vanilla JavaScript.</p>
+      <p>&copy; <span id="year">2025</span> <span>MD Tanvirul Islam (Tanvir). All rights reserved.</span></p>
+      <p>Built with HTML, CSS &amp; vanilla JavaScript.</p>
     </div>
   </div>
 </footer>
@@ -2121,10 +2062,6 @@ body.menu-open{overflow:hidden}
      ============================================================ -->
 
 
-<!-- Toast (for language availability notice) -->
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-
 <script>
 /* ============================================================
    JS SECTION: SITE CONFIGURATION
@@ -2146,299 +2083,17 @@ const isPlaceholder = (v) => typeof v === 'string' && v.indexOf('REPLACE_WITH_')
 
 
 /* ============================================================
-   JS SECTION: TRANSLATIONS (i18n)
-   ------------------------------------------------------------
-   English and Bengali are fully translated.
-   The 'hero.portrait' and 'about.imgPlaceholder' keys remain in
-   the packs for backward compatibility but are no longer used by
-   the HTML (real <img> elements now replace those placeholders).
+   JS SECTION: ENGLISH UI STRINGS (only the strings JS still needs)
    ============================================================ */
-const I18N = {
-  en: {
-    'lang.code': 'en',
-    'lang.unavailable': 'This language is not yet translated. Only English and Bengali are fully supported right now. An external translation service would be required for this language.',
-
-    'nav.home': 'Home',
-    'nav.about': 'About',
-    'nav.services': 'Services',
-    'nav.skills': 'Skills',
-    'nav.portfolio': 'Portfolio',
-    'nav.process': 'Process',
-    'nav.contact': 'Contact',
-    'nav.talk': 'Let\'s Talk',
-
-    'hero.badge': 'Data Entry &bull; Web Research &bull; Canva Design',
-    'hero.title': 'Hi, I\'m <em>Tanvir</em>.',
-    'hero.lead': 'I help people and businesses organise their information and present it professionally.',
-    'hero.text': 'I\'m MD Tanvirul Islam. I work with accurate data entry, online research, Excel and Google Sheets, clean document formatting, and Canva design — so your records stay tidy and your visuals look polished.',
-    'hero.ctaPrimary': 'Explore My Work <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>',
-    'hero.ctaSecondary': 'Contact Me <i class="fa-regular fa-envelope" aria-hidden="true"></i>',
-    'hero.chip1': 'Detail focused',
-    'hero.chip2': 'Clear communication',
-    'hero.chip3': 'Organised delivery',
-    'hero.portrait': 'Portrait placeholder — replace with your own photo (assets/tanvir-portrait.jpg)',
-    'hero.float1': 'Spreadsheets',
-    'hero.float2': 'Canva Design',
-    'hero.scroll': 'Scroll to explore',
-
-    'about.eyebrow': 'About Me',
-    'about.name': 'MD Tanvirul Islam &mdash; Tanvir',
-    'about.title': 'Organised information, presented properly.',
-    'about.p1': 'I\'m Tanvir, a freelancer focused on helping people and small businesses keep their information organised and their materials looking professional. Whether it\'s moving data into a spreadsheet, researching information online, tidying up a document, or designing a simple graphic in Canva — I aim for clean, accurate and easy-to-use results.',
-    'about.p2': 'I care about the details: consistent formatting, readable layouts, and clear communication throughout a project. You tell me what you need, and I\'ll do my best to deliver it in a neat, usable form.',
-    'about.li1': 'Data entry &amp; record organisation',
-    'about.li2': 'Web research &amp; information gathering',
-    'about.li3': 'Excel &amp; Google Sheets work',
-    'about.li4': 'Document formatting',
-    'about.li5': 'Canva visual design',
-    'about.li6': 'Structured, tidy delivery',
-    'about.cta': 'Contact Me <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>',
-    'about.imgPlaceholder': 'Image placeholder — add your photo here (assets/tanvir-about.jpg)',
-
-    'services.eyebrow': 'Services',
-    'services.title': 'What I can help you with',
-    'services.subtitle': 'Practical support for data, research, documents and simple visual design.',
-    'services.linkText': 'Discuss This Service <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>',
-    'services.s1.title': 'Data Entry',
-    'services.s1.desc': 'Accurate entry of information into spreadsheets, documents or online forms. I transfer data carefully, keep records consistent, and organise entries so they are easy to search, sort and update later.',
-    'services.s2.title': 'Data Mining &amp; Web Research',
-    'services.s2.desc': 'Online research and information gathering from relevant public sources. I collect the details you need — such as names, contact information, prices or listings — and organise the findings into a clear, usable format.',
-    'services.s3.title': 'Excel &amp; Google Sheets',
-    'services.s3.desc': 'Spreadsheet organisation and structuring: sorting, filtering, basic formulas, consistent column layouts and clear headings so your data is simple to read and work with.',
-    'services.s4.title': 'Spreadsheet Data Entry &amp; Formatting',
-    'services.s4.desc': 'Clean spreadsheet layouts with consistent formatting, readable columns, aligned text, and organised records — so your sheet looks tidy and is straightforward to maintain.',
-    'services.s5.title': 'Document Formatting',
-    'services.s5.desc': 'Professional formatting for documents and reports: consistent headings, spacing, fonts, alignment and page layout, so your material looks neat and is easy to read.',
-    'services.s6.title': 'Canva Design',
-    'services.s6.desc': 'Visual content created in Canva: social media posts, promotional graphics, banners and covers, YouTube thumbnails, posters, presentation slides and other simple marketing designs — built around your text, colours and style.',
-
-    'skills.eyebrow': 'Skills',
-    'skills.title': 'Areas I work in',
-    'skills.subtitle': 'A clear view of the tools and tasks I handle day to day.',
-    'skills.c1.title': 'Data Entry &amp; Organisation',
-    'skills.c1.t1': 'Accurate typing', 'skills.c1.t2': 'Record keeping', 'skills.c1.t3': 'Copy &amp; paste from PDF', 'skills.c1.t4': 'Data cleaning', 'skills.c1.t5': 'File organisation',
-    'skills.c2.title': 'Web Research &amp; Information Gathering',
-    'skills.c2.t1': 'Online research', 'skills.c2.t2': 'Public source collection', 'skills.c2.t3': 'List building', 'skills.c2.t4': 'Fact checking', 'skills.c2.t5': 'Summarising findings',
-    'skills.c3.title': 'Excel &amp; Google Sheets',
-    'skills.c3.t1': 'Sorting &amp; filtering', 'skills.c3.t2': 'Basic formulas', 'skills.c3.t3': 'Column structuring', 'skills.c3.t4': 'Formatting', 'skills.c3.t5': 'Data cleanup',
-    'skills.c4.title': 'Document Formatting',
-    'skills.c4.t1': 'Headings &amp; styles', 'skills.c4.t2': 'Spacing &amp; alignment', 'skills.c4.t3': 'Consistent layout', 'skills.c4.t4': 'Reports', 'skills.c4.t5': 'PDF cleanup',
-    'skills.c5.title': 'Canva Design',
-    'skills.c5.t1': 'Social media posts', 'skills.c5.t2': 'Banners &amp; covers', 'skills.c5.t3': 'YouTube thumbnails', 'skills.c5.t4': 'Posters', 'skills.c5.t5': 'Presentations',
-    'skills.c6.title': 'Basic Front-End Web',
-    'skills.c6.t4': 'Responsive layout',
-
-    'portfolio.eyebrow': 'Portfolio',
-    'portfolio.title': 'Sample work previews',
-    'portfolio.subtitle': 'These are placeholder examples showing the type of work I offer. They will be replaced with real samples as they become available.',
-    'portfolio.sample': 'Sample placeholder',
-    'portfolio.note': 'These cards are clearly labelled sample placeholders. No real client project, result or testimonial is shown here.',
-    'portfolio.filter.all': 'All',
-    'portfolio.filter.dataEntry': 'Data Entry',
-    'portfolio.filter.spreadsheet': 'Spreadsheets',
-    'portfolio.filter.research': 'Web Research',
-    'portfolio.filter.document': 'Documents',
-    'portfolio.filter.canva': 'Canva Design',
-    'portfolio.p1.cat': 'Spreadsheet', 'portfolio.p1.title': 'Spreadsheet Formatting', 'portfolio.p1.desc': 'A tidy sheet layout with clear headings, consistent columns and organised rows.',
-    'portfolio.p2.cat': 'Web Research', 'portfolio.p2.title': 'Web Research Sample', 'portfolio.p2.desc': 'Public information collected from online sources and organised into a structured list.',
-    'portfolio.p3.cat': 'Document', 'portfolio.p3.title': 'Document Formatting', 'portfolio.p3.desc': 'A report laid out with consistent headings, spacing and readable alignment.',
-    'portfolio.p4.cat': 'Canva Design', 'portfolio.p4.title': 'Canva Social Media Design', 'portfolio.p4.desc': 'A simple, clean social post layout built in Canva around a brand\'s colours.',
-    'portfolio.p5.cat': 'Canva Design', 'portfolio.p5.title': 'Canva Banner or Thumbnail', 'portfolio.p5.desc': 'A bold, readable banner/thumbnail design with strong contrast and clear text.',
-    'portfolio.p6.cat': 'Data Entry', 'portfolio.p6.title': 'Data Entry Sample', 'portfolio.p6.desc': 'Information transferred accurately from source documents into a structured sheet.',
-
-    'process.eyebrow': 'Process',
-    'process.title': 'How we\'ll work together',
-    'process.subtitle': 'A simple, predictable four-step workflow.',
-    'process.s1.title': 'Discuss the Requirements', 'process.s1.desc': 'You tell me what you need and I confirm the scope, format and deadline.',
-    'process.s2.title': 'Review the Information or Materials', 'process.s2.desc': 'I look through the files, links or data you share and ask any questions early.',
-    'process.s3.title': 'Complete the Agreed Work', 'process.s3.desc': 'I carry out the task carefully, keeping the format consistent and organised.',
-    'process.s4.title': 'Review and Deliver', 'process.s4.desc': 'You review the result and I make any reasonable adjustments before final delivery.',
-
-    'contact.eyebrow': 'Contact',
-    'contact.title': 'Let\'s discuss your project',
-    'contact.intro': 'Have a task in mind — a spreadsheet to organise, some research to gather, a document to clean up, or a Canva design to create? Send me a message and I\'ll get back to you as soon as I can.',
-    'contact.emailLabel': 'Email',
-    'contact.fbLabel': 'Facebook',
-    'contact.fbValue': 'Facebook profile',
-    'contact.waLabel': 'WhatsApp',
-    'contact.waValue': 'Chat on WhatsApp',
-
-    'form.name': 'Full name <span class="req" aria-hidden="true">*</span>',
-    'form.namePh': 'Your full name',
-    'form.email': 'Email address <span class="req" aria-hidden="true">*</span>',
-    'form.service': 'Service or project type <span class="req" aria-hidden="true">*</span>',
-    'form.servicePh': 'Select a service…',
-    'form.other': 'Other',
-    'form.budget': 'Budget <span style="color:var(--muted);font-weight:400">(optional)</span>',
-    'form.message': 'Message <span class="req" aria-hidden="true">*</span>',
-    'form.messagePh': 'Tell me about your project, the file format you need, and your preferred timeline.',
-    'form.submit': 'Send Message <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>',
-    'form.note': 'Required fields are marked with <span aria-hidden="true">*</span>. Your message is sent securely through Formspree and needs an internet connection.',
-    'form.sending': 'Sending your message…',
-    'form.success': 'Thank you! Your message was sent successfully. I will get back to you as soon as possible.',
-    'form.error': 'Sorry, your message could not be sent. Please try again, or email me directly at tanvirofficial105@gmail.com.',
-    'form.errorNetwork': 'Network error — your message was not sent. Please check your internet connection, or email me directly at tanvirofficial105@gmail.com.',
-
-    'footer.tag': 'Data entry, web research, spreadsheets, document formatting and Canva design — organised work, delivered with care.',
-    'footer.quick': 'Quick Links',
-    'footer.touch': 'Get in Touch',
-    'footer.copyright': 'MD Tanvirul Islam (Tanvir). All rights reserved.',
-    'footer.built': 'Built with HTML, CSS &amp; vanilla JavaScript.',
-
-    'lightbox.placeholder': 'Sample placeholder — no image file provided yet. Add a real image inside this card to display it here.',
-    'lightbox.close': 'Close preview',
-    'lightbox.prev': 'Previous project',
-    'lightbox.next': 'Next project'
-  },
-
-  bn: {
-    'lang.code': 'bn',
-    'lang.unavailable': 'এই ভাষাটি এখনও অনূদিত হয়নি। এই মুহূর্তে শুধুমাত্র ইংরেজি এবং বাংলা সম্পূর্ণভাবে সমর্থিত।',
-
-    'nav.home': 'হোম',
-    'nav.about': 'আমার সম্পর্কে',
-    'nav.services': 'সেবা',
-    'nav.skills': 'দক্ষতা',
-    'nav.portfolio': 'পোর্টফোলিও',
-    'nav.process': 'কার্যপ্রণালী',
-    'nav.contact': 'যোগাযোগ',
-    'nav.talk': 'কথা বলি',
-
-    'hero.badge': 'ডেটা এন্ট্রি • ওয়েব রিসার্চ • ক্যানভা ডিজাইন',
-    'hero.title': 'হ্যালো, আমি <em>তানভীর</em>।',
-    'hero.lead': 'আমি মানুষ এবং ব্যবসাকে তাদের তথ্য সংগঠিত করতে এবং পেশাদারভাবে উপস্থাপন করতে সাহায্য করি।',
-    'hero.text': 'আমি এমডি তানভীরুল ইসলাম। আমি সঠিক ডেটা এন্ট্রি, অনলাইন রিসার্চ, এক্সেল ও গুগল শিট, পরিচ্ছন্ন ডকুমেন্ট ফরম্যাটিং এবং ক্যানভা ডিজাইনে কাজ করি — যাতে আপনার রেকর্ড গোছানো থাকে এবং ভিজ্যুয়াল দেখতে পরিপাটি হয়।',
-    'hero.ctaPrimary': 'আমার কাজ দেখুন <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>',
-    'hero.ctaSecondary': 'যোগাযোগ করুন <i class="fa-regular fa-envelope" aria-hidden="true"></i>',
-    'hero.chip1': 'বিস্তারিত মনোযোগী',
-    'hero.chip2': 'স্পষ্ট যোগাযোগ',
-    'hero.chip3': 'সংগঠিত ডেলিভারি',
-    'hero.portrait': 'পোর্ট্রেট প্লেসহোল্ডার — নিজের ছবি দিয়ে প্রতিস্থাপন করুন (assets/tanvir-portrait.jpg)',
-    'hero.float1': 'স্প্রেডশিট',
-    'hero.float2': 'ক্যানভা ডিজাইন',
-    'hero.scroll': 'দেখতে স্ক্রল করুন',
-
-    'about.eyebrow': 'আমার সম্পর্কে',
-    'about.name': 'এমডি তানভীরুল ইসলাম — তানভীর',
-    'about.title': 'সংগঠিত তথ্য, সঠিকভাবে উপস্থাপিত।',
-    'about.p1': 'আমি তানভীর, একজন ফ্রিল্যান্সার যিনি মানুষ এবং ছোট ব্যবসাকে তাদের তথ্য গোছানো এবং উপকরণ পেশাদার দেখাতে সাহায্য করেন। ডেটা স্প্রেডশিটে স্থানান্তর, অনলাইন তথ্য গবেষণা, ডকুমেন্ট পরিপাটি করা, বা ক্যানভায় একটি সাধারণ গ্রাফিক ডিজাইন — আমি পরিচ্ছন্ন, সঠিক এবং সহজে ব্যবহারযোগ্য ফলাফলের লক্ষ্য রাখি।',
-    'about.p2': 'আমি বিস্তারিত বিষয়ে যত্নশীল: সামঞ্জস্যপূর্ণ ফরম্যাটিং, পাঠযোগ্য বিন্যাস, এবং একটি প্রকল্প জুড়ে স্পষ্ট যোগাযোগ। আপনি আমাকে কী প্রয়োজন বলেন, এবং আমি আমার সাধ্যমত পরিপাটি, ব্যবহারযোগ্য আকারে সরবরাহ করার চেষ্টা করি।',
-    'about.li1': 'ডেটা এন্ট্রি ও রেকর্ড সংগঠন',
-    'about.li2': 'ওয়েব রিসার্চ ও তথ্য সংগ্রহ',
-    'about.li3': 'এক্সেল ও গুগল শিট কাজ',
-    'about.li4': 'ডকুমেন্ট ফরম্যাটিং',
-    'about.li5': 'ক্যানভা ভিজ্যুয়াল ডিজাইন',
-    'about.li6': 'সংগঠিত, পরিচ্ছন্ন ডেলিভারি',
-    'about.cta': 'যোগাযোগ করুন <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>',
-    'about.imgPlaceholder': 'ছবির প্লেসহোল্ডার — এখানে আপনার ছবি যোগ করুন (assets/tanvir-about.jpg)',
-
-    'services.eyebrow': 'সেবা',
-    'services.title': 'আমি কীভাবে সাহায্য করতে পারি',
-    'services.subtitle': 'ডেটা, গবেষণা, ডকুমেন্ট এবং সাধারণ ভিজ্যুয়াল ডিজাইনের জন্য ব্যবহারিক সহায়তা।',
-    'services.linkText': 'এই সেবা নিয়ে আলোচনা করুন <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>',
-    'services.s1.title': 'ডেটা এন্ট্রি',
-    'services.s1.desc': 'স্প্রেডশিট, ডকুমেন্ট বা অনলাইন ফর্মে তথ্যের সঠিক এন্ট্রি। আমি যত্নসহকারে ডেটা স্থানান্তর করি, রেকর্ড সামঞ্জস্যপূর্ণ রাখি এবং এন্ট্রিগুলি সংগঠিত করি যাতে পরে সহজে অনুসন্ধান, সাজানো এবং আপডেট করা যায়।',
-    'services.s2.title': 'ডেটা মাইনিং ও ওয়েব রিসার্চ',
-    'services.s2.desc': 'প্রাসঙ্গিক পাবলিক সোর্স থেকে অনলাইন গবেষণা এবং তথ্য সংগ্রহ। আমি আপনার প্রয়োজনীয় বিবরণ সংগ্রহ করি — যেমন নাম, যোগাযোগের তথ্য, মূল্য বা তালিকা — এবং ফলাফলগুলি স্পষ্ট, ব্যবহারযোগ্য বিন্যাসে সংগঠিত করি।',
-    'services.s3.title': 'এক্সেল ও গুগল শিট',
-    'services.s3.desc': 'স্প্রেডশিট সংগঠন এবং কাঠামো: সাজানো, ফিল্টারিং, মৌলিক সূত্র, সামঞ্জস্যপূর্ণ কলাম বিন্যাস এবং স্পষ্ট শিরোনাম যাতে আপনার ডেটা পড়া ও কাজ করা সহজ হয়।',
-    'services.s4.title': 'স্প্রেডশিট ডেটা এন্ট্রি ও ফরম্যাটিং',
-    'services.s4.desc': 'সামঞ্জস্যপূর্ণ ফরম্যাটিং, পাঠযোগ্য কলাম, সারিবদ্ধ পাঠ্য এবং সংগঠিত রেকর্ড সহ পরিচ্ছন্ন স্প্রেডশিট বিন্যাস — যাতে আপনার শিট পরিপাটি দেখায় এবং বজায় রাখা সহজ হয়।',
-    'services.s5.title': 'ডকুমেন্ট ফরম্যাটিং',
-    'services.s5.desc': 'ডকুমেন্ট এবং রিপোর্টের জন্য পেশাদার ফরম্যাটিং: সামঞ্জস্যপূর্ণ শিরোনাম, স্পেসিং, ফন্ট, সারিবদ্ধকরণ এবং পৃষ্ঠা বিন্যাস, যাতে আপনার উপাদান পরিপাটি দেখায় এবং পড়া সহজ হয়।',
-    'services.s6.title': 'ক্যানভা ডিজাইন',
-    'services.s6.desc': 'ক্যানভায় তৈরি ভিজ্যুয়াল কনটেন্ট: সোশ্যাল মিডিয়া পোস্ট, প্রচারমূলক গ্রাফিক্স, ব্যানার ও কভার, ইউটিউব থাম্বনেইল, পোস্টার, উপস্থাপনা স্লাইড এবং অন্যান্য সাধারণ মার্কেটিং ডিজাইন — আপনার টেক্সট, রঙ এবং স্টাইলের চারপাশে তৈরি।',
-
-    'skills.eyebrow': 'দক্ষতা',
-    'skills.title': 'আমি যে ক্ষেত্রে কাজ করি',
-    'skills.subtitle': 'আমার দৈনন্দিন কাজের টুলস এবং কাজের একটি স্পষ্ট দৃশ্য।',
-    'skills.c1.title': 'ডেটা এন্ট্রি ও সংগঠন',
-    'skills.c1.t1': 'সঠিক টাইপিং', 'skills.c1.t2': 'রেকর্ড রাখা', 'skills.c1.t3': 'PDF থেকে কপি ও পেস্ট', 'skills.c1.t4': 'ডেটা ক্লিনিং', 'skills.c1.t5': 'ফাইল সংগঠন',
-    'skills.c2.title': 'ওয়েব রিসার্চ ও তথ্য সংগ্রহ',
-    'skills.c2.t1': 'অনলাইন রিসার্চ', 'skills.c2.t2': 'পাবলিক সোর্স সংগ্রহ', 'skills.c2.t3': 'তালিকা তৈরি', 'skills.c2.t4': 'তথ্য যাচাই', 'skills.c2.t5': 'ফলাফল সারসংক্ষেপ',
-    'skills.c3.title': 'এক্সেল ও গুগল শিট',
-    'skills.c3.t1': 'সাজানো ও ফিল্টারিং', 'skills.c3.t2': 'মৌলিক সূত্র', 'skills.c3.t3': 'কলাম কাঠামো', 'skills.c3.t4': 'ফরম্যাটিং', 'skills.c3.t5': 'ডেটা ক্লিনআপ',
-    'skills.c4.title': 'ডকুমেন্ট ফরম্যাটিং',
-    'skills.c4.t1': 'শিরোনাম ও স্টাইল', 'skills.c4.t2': 'স্পেসিং ও সারিবদ্ধকরণ', 'skills.c4.t3': 'সামঞ্জস্যপূর্ণ বিন্যাস', 'skills.c4.t4': 'রিপোর্ট', 'skills.c4.t5': 'PDF ক্লিনআপ',
-    'skills.c5.title': 'ক্যানভা ডিজাইন',
-    'skills.c5.t1': 'সোশ্যাল মিডিয়া পোস্ট', 'skills.c5.t2': 'ব্যানার ও কভার', 'skills.c5.t3': 'ইউটিউব থাম্বনেইল', 'skills.c5.t4': 'পোস্টার', 'skills.c5.t5': 'উপস্থাপনা',
-    'skills.c6.title': 'বেসিক ফ্রন্ট-এন্ড ওয়েব',
-    'skills.c6.t4': 'রেসপন্সিভ লেআউট',
-
-    'portfolio.eyebrow': 'পোর্টফোলিও',
-    'portfolio.title': 'নমুনা কাজের প্রিভিউ',
-    'portfolio.subtitle': 'এগুলি প্লেসহোল্ডার উদাহরণ যা আমি যে ধরনের কাজ করি তা দেখায়। প্রকৃত নমুনা পাওয়া গেলে এগুলি প্রতিস্থাপন করা হবে।',
-    'portfolio.sample': 'নমুনা প্লেসহোল্ডার',
-    'portfolio.note': 'এই কার্ডগুলি স্পষ্টভাবে চিহ্নিত নমুনা প্লেসহোল্ডার। এখানে কোনও প্রকৃত ক্লায়েন্ট প্রকল্প, ফলাফল বা প্রশংসাপত্র দেখানো হয়নি।',
-    'portfolio.filter.all': 'সব',
-    'portfolio.filter.dataEntry': 'ডেটা এন্ট্রি',
-    'portfolio.filter.spreadsheet': 'স্প্রেডশিট',
-    'portfolio.filter.research': 'ওয়েব রিসার্চ',
-    'portfolio.filter.document': 'ডকুমেন্ট',
-    'portfolio.filter.canva': 'ক্যানভা ডিজাইন',
-    'portfolio.p1.cat': 'স্প্রেডশিট', 'portfolio.p1.title': 'স্প্রেডশিট ফরম্যাটিং', 'portfolio.p1.desc': 'পরিষ্কার শিরোনাম, সামঞ্জস্যপূর্ণ কলাম এবং সংগঠিত সারি সহ পরিপাটি শিট বিন্যাস।',
-    'portfolio.p2.cat': 'ওয়েব রিসার্চ', 'portfolio.p2.title': 'ওয়েব রিসার্চ নমুনা', 'portfolio.p2.desc': 'অনলাইন সোর্স থেকে সংগৃহীত পাবলিক তথ্য এবং একটি কাঠামোগত তালিকায় সংগঠিত।',
-    'portfolio.p3.cat': 'ডকুমেন্ট', 'portfolio.p3.title': 'ডকুমেন্ট ফরম্যাটিং', 'portfolio.p3.desc': 'সামঞ্জস্যপূর্ণ শিরোনাম, স্পেসিং এবং পাঠযোগ্য সারিবদ্ধকরণ সহ একটি রিপোর্ট।',
-    'portfolio.p4.cat': 'ক্যানভা ডিজাইন', 'portfolio.p4.title': 'ক্যানভা সোশ্যাল মিডিয়া ডিজাইন', 'portfolio.p4.desc': 'একটি ব্র্যান্ডের রঙের চারপাশে ক্যানভায় তৈরি একটি সাধারণ, পরিচ্ছন্ন সোশ্যাল পোস্ট বিন্যাস।',
-    'portfolio.p5.cat': 'ক্যানভা ডিজাইন', 'portfolio.p5.title': 'ক্যানভা ব্যানার বা থাম্বনেইল', 'portfolio.p5.desc': 'শক্তিশালী বৈসাদৃশ্য এবং স্পষ্ট টেক্সট সহ একটি সাহসী, পাঠযোগ্য ব্যানার/থাম্বনেইল ডিজাইন।',
-    'portfolio.p6.cat': 'ডেটা এন্ট্রি', 'portfolio.p6.title': 'ডেটা এন্ট্রি নমুনা', 'portfolio.p6.desc': 'সোর্স ডকুমেন্ট থেকে সঠিকভাবে একটি কাঠামোগত শিটে স্থানান্তরিত তথ্য।',
-
-    'process.eyebrow': 'কার্যপ্রণালী',
-    'process.title': 'আমরা একসাথে কীভাবে কাজ করব',
-    'process.subtitle': 'একটি সহজ, অনুমানযোগ্য চার-ধাপের কার্যপ্রবাহ।',
-    'process.s1.title': 'প্রয়োজনীয়তা আলোচনা', 'process.s1.desc': 'আপনি আমাকে কী প্রয়োজন তা বলেন এবং আমি সুযোগ, বিন্যাস এবং সময়সীমা নিশ্চিত করি।',
-    'process.s2.title': 'তথ্য বা উপকরণ পর্যালোচনা', 'process.s2.desc': 'আমি আপনার শেয়ার করা ফাইল, লিংক বা ডেটা দেখি এবং আগে থেকেই প্রশ্ন করি।',
-    'process.s3.title': 'সম্মত কাজ সম্পন্ন', 'process.s3.desc': 'আমি যত্নসহকারে কাজটি সম্পাদন করি, বিন্যাস সামঞ্জস্যপূর্ণ এবং সংগঠিত রাখি।',
-    'process.s4.title': 'পর্যালোচনা ও সরবরাহ', 'process.s4.desc': 'আপনি ফলাফল পর্যালোচনা করেন এবং চূড়ান্ত সরবরাহের আগে আমি যুক্তিসঙ্গত সমন্বয় করি।',
-
-    'contact.eyebrow': 'যোগাযোগ',
-    'contact.title': 'আপনার প্রকল্প নিয়ে আলোচনা করি',
-    'contact.intro': 'মনে কোনও কাজ আছে — সংগঠিত করার জন্য একটি স্প্রেডশিট, সংগ্রহ করার জন্য কিছু গবেষণা, পরিপাটি করার জন্য একটি ডকুমেন্ট, বা তৈরি করার জন্য একটি ক্যানভা ডিজাইন? আমাকে একটি বার্তা পাঠান এবং আমি যত তাড়াতাড়ি সম্ভব ফিরে যোগাযোগ করব।',
-    'contact.emailLabel': 'ইমেইল',
-    'contact.fbLabel': 'ফেসবুক',
-    'contact.fbValue': 'ফেসবুক প্রোফাইল',
-    'contact.waLabel': 'হোয়াটসঅ্যাপ',
-    'contact.waValue': 'হোয়াটসঅ্যাপে চ্যাট করুন',
-
-    'form.name': 'পুরো নাম <span class="req" aria-hidden="true">*</span>',
-    'form.namePh': 'আপনার পুরো নাম',
-    'form.email': 'ইমেইল ঠিকানা <span class="req" aria-hidden="true">*</span>',
-    'form.service': 'সেবা বা প্রকল্পের ধরন <span class="req" aria-hidden="true">*</span>',
-    'form.servicePh': 'একটি সেবা নির্বাচন করুন…',
-    'form.other': 'অন্যান্য',
-    'form.budget': 'বাজেট <span style="color:var(--muted);font-weight:400">(ঐচ্ছিক)</span>',
-    'form.message': 'বার্তা <span class="req" aria-hidden="true">*</span>',
-    'form.messagePh': 'আপনার প্রকল্প সম্পর্কে বলুন, আপনার প্রয়োজনীয় ফাইল বিন্যাস এবং আপনার পছন্দের সময়সীমা।',
-    'form.submit': 'বার্তা পাঠান <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>',
-    'form.note': 'প্রয়োজনীয় ক্ষেত্রগুলি <span aria-hidden="true">*</span> দিয়ে চিহ্নিত। আপনার বার্তা Formspree-এর মাধ্যমে নিরাপদে পাঠানো হয় এবং ইন্টারনেট সংযোগ প্রয়োজন।',
-    'form.sending': 'আপনার বার্তা পাঠানো হচ্ছে…',
-    'form.success': 'ধন্যবাদ! আপনার বার্তা সফলভাবে পাঠানো হয়েছে। আমি যত তাড়াতাড়ি সম্ভব আপনার সাথে যোগাযোগ করব।',
-    'form.error': 'দুঃখিত, আপনার বার্তা পাঠানো যায়নি। আবার চেষ্টা করুন, অথবা সরাসরি tanvirofficial105@gmail.com-এ ইমেইল করুন।',
-    'form.errorNetwork': 'নেটওয়ার্ক ত্রুটি — আপনার বার্তা পাঠানো হয়নি। আপনার ইন্টারনেট সংযোগ পরীক্ষা করুন, অথবা সরাসরি tanvirofficial105@gmail.com-এ ইমেইল করুন।',
-
-    'footer.tag': 'ডেটা এন্ট্রি, ওয়েব রিসার্চ, স্প্রেডশিট, ডকুমেন্ট ফরম্যাটিং এবং ক্যানভা ডিজাইন — সংগঠিত কাজ, যত্নসহকারে সরবরাহ।',
-    'footer.quick': 'দ্রুত লিংক',
-    'footer.touch': 'যোগাযোগ করুন',
-    'footer.copyright': 'এমডি তানভীরুল ইসলাম (তানভীর)। সর্বস্বত্ব সংরক্ষিত।',
-    'footer.built': 'HTML, CSS ও ভ্যানিলা JavaScript দিয়ে তৈরি।',
-
-    'lightbox.placeholder': 'নমুনা প্লেসহোল্ডার — এখনও কোনও ছবি ফাইল দেওয়া হয়নি। এখানে একটি প্রকৃত ছবি প্রদর্শন করতে এই কার্ডে একটি ছবি যোগ করুন।',
-    'lightbox.close': 'প্রিভিউ বন্ধ করুন',
-    'lightbox.prev': 'পূর্ববর্তী প্রকল্প',
-    'lightbox.next': 'পরবর্তী প্রকল্প'
-  }
+const STRINGS = {
+  'lightbox.placeholder': 'Sample placeholder \u2014 no image file provided yet. Add a real image inside this card to display it here.',
+  'form.sending': 'Sending your message\u2026',
+  'form.success': 'Thank you! Your message was sent successfully. I will get back to you as soon as possible.',
+  'form.error': 'Sorry, your message could not be sent. Please try again, or email me directly at tanvirofficial105@gmail.com.',
+  'form.errorNetwork': 'Network error \u2014 your message was not sent. Please check your internet connection, or email me directly at tanvirofficial105@gmail.com.'
 };
-
-/* Names of languages listed in the <select> but not yet translated */
-const UNTRANSLATED_LANGS = ['hi','ar','es','fr','de','pt','ru','zh','ja','ko','it','tr','id','ur'];
-
-let currentLang = 'en';
-
-/* Look up a key in the active language; fall back to English */
-function t(key) {
-  const pack = I18N[currentLang] || I18N.en;
-  return pack[key] !== undefined ? pack[key] : (I18N.en[key] !== undefined ? I18N.en[key] : key);
-}
+function t(key) { return STRINGS[key] !== undefined ? STRINGS[key] : key; }
+try { localStorage.removeItem('tanvir-lang'); } catch (e) {}
 
 
 /* ============================================================
@@ -2528,94 +2183,6 @@ function t(key) {
   };
   if (mq.addEventListener) mq.addEventListener('change', onSystemChange);
   else if (mq.addListener) mq.addListener(onSystemChange);
-})();
-
-
-/* ============================================================
-   JS SECTION: LANGUAGE SWITCHER
-   ============================================================ */
-(function languageSwitcher () {
-  const select = document.getElementById('langSelect');
-  const toast = document.getElementById('toast');
-  if (!select) return;
-
-  const KEY = 'tanvir-lang';
-  let toastTimer = null;
-
-  function showToast(msg) {
-    if (!toast) return;
-    toast.textContent = msg;
-    toast.classList.add('is-visible');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () {
-      toast.classList.remove('is-visible');
-    }, 4200);
-  }
-
-  function applyTranslations(lang) {
-    currentLang = lang;
-    document.documentElement.setAttribute('lang', lang);
-
-    document.querySelectorAll('[data-i18n]').forEach(function (el) {
-      const key = el.getAttribute('data-i18n');
-      const val = t(key);
-      if (val !== undefined && val !== key) el.innerHTML = val;
-    });
-    document.querySelectorAll('[data-i18n-html]').forEach(function (el) {
-      const key = el.getAttribute('data-i18n-html');
-      const val = t(key);
-      if (val !== undefined && val !== key) el.innerHTML = val;
-    });
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(function (el) {
-      const key = el.getAttribute('data-i18n-placeholder');
-      const val = t(key);
-      if (val !== undefined && val !== key) el.setAttribute('placeholder', val);
-    });
-
-    const lbClose = document.getElementById('lightboxClose');
-    if (lbClose) lbClose.setAttribute('aria-label', t('lightbox.close'));
-    const lbPrev = document.getElementById('lightboxPrev');
-    if (lbPrev) lbPrev.setAttribute('aria-label', t('lightbox.prev'));
-    const lbNext = document.getElementById('lightboxNext');
-    if (lbNext) lbNext.setAttribute('aria-label', t('lightbox.next'));
-
-    const lb = document.getElementById('lightbox');
-    if (lb && lb.classList.contains('is-open')) {
-      document.dispatchEvent(new CustomEvent('tanvir:lang-change'));
-    }
-  }
-
-  function setLanguage(lang) {
-    if (!I18N[lang]) return false;
-    try { localStorage.setItem(KEY, lang); } catch (e) {}
-    applyTranslations(lang);
-    select.value = lang;
-    return true;
-  }
-
-  select.addEventListener('change', function () {
-    const chosen = select.value;
-    if (UNTRANSLATED_LANGS.indexOf(chosen) !== -1) {
-      showToast(I18N[currentLang]['lang.unavailable'] || I18N.en['lang.unavailable']);
-      select.value = currentLang;
-      return;
-    }
-    if (!setLanguage(chosen)) {
-      select.value = currentLang;
-    }
-  });
-
-  let initial = 'en';
-  try {
-    const stored = localStorage.getItem(KEY);
-    if (stored && I18N[stored]) {
-      initial = stored;
-    } else {
-      const browser = (navigator.language || 'en').toLowerCase();
-      if (browser.indexOf('bn') === 0) initial = 'bn';
-    }
-  } catch (e) {}
-  setLanguage(initial);
 })();
 
 
@@ -2997,10 +2564,6 @@ function t(key) {
         e.preventDefault(); first.focus();
       }
     }
-  });
-
-  document.addEventListener('tanvir:lang-change', function () {
-    if (lb.classList.contains('is-open')) render();
   });
 })();
 
