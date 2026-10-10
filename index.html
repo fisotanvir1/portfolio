@@ -27,8 +27,16 @@
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23040405'/%3E%3Ctext x='50%25' y='57%25' text-anchor='middle' font-family='Arial' font-size='34' font-weight='bold' fill='%235eead4'%3ET%3C/text%3E%3C/svg%3E">
 
+<!-- PERF: preconnect to Font Awesome CDN origin (was missing) -->
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<!-- PERF: preload the hero LCP image so the browser starts fetching it
+     before it reaches the <img> tag. fetchpriority hints are ignored by
+     browsers that don't support them, so this is safe. -->
+<link rel="preload" as="image" href="./profile.png" fetchpriority="high">
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer">
 
@@ -113,8 +121,6 @@
 
 /* ============================================================
    CSS SECTION: LIGHT THEME OVERRIDES
-   Explicit selection via data-theme="light", OR system preference
-   when no explicit choice is stored.
    ============================================================ */
 :root[data-theme="light"]{
   --bg:#f7f8fa;
@@ -582,6 +588,11 @@ body.menu-open{overflow:hidden}
   50%{transform:translate(40px,30px) scale(.9)}
 }
 
+/* PERF: pause the 4 infinite hero animations when the hero section is
+   scrolled out of view. No visual change while the hero is visible. */
+.hero--paused .orb,
+.hero--paused .hero__glow{animation-play-state:paused}
+
 .hero__inner{
   position:relative;z-index:1;
   display:grid;grid-template-columns:1.08fr .92fr;
@@ -651,7 +662,6 @@ body.menu-open{overflow:hidden}
 }
 .portrait-frame i{font-size:2.6rem;color:rgba(var(--accent-rgb),.75)}
 .portrait-frame p{font-size:.8rem;color:var(--muted);margin:0;max-width:24ch}
-/* ADDED: profile photo fills the 4:5 frame without distortion */
 .portrait-frame img{
   position:absolute;inset:0;
   width:100%;height:100%;
@@ -659,7 +669,6 @@ body.menu-open{overflow:hidden}
   border-radius:inherit;
   z-index:0;
 }
-/* Ensure gradient overlay paints above the image */
 .portrait-frame::after{z-index:1}
 
 .floating-card{
@@ -715,7 +724,6 @@ body.menu-open{overflow:hidden}
 }
 .about__visual i{font-size:2.4rem;color:rgba(var(--accent-rgb),.7)}
 .about__visual p{font-size:.8rem;color:var(--muted);margin:0;max-width:22ch}
-/* ADDED: about photo fills the visual card */
 .about__visual img{
   width:100%;height:100%;
   object-fit:cover;
@@ -858,7 +866,6 @@ body.menu-open{overflow:hidden}
 }
 .work-card[hidden]{display:none}
 
-/* Clickable thumbnail (rendered as a <button>) */
 .work-card__thumb{
   position:relative;aspect-ratio:16 / 10;
   display:grid;place-items:center;
@@ -1388,7 +1395,7 @@ body.menu-open{overflow:hidden}
     <!-- LOGO: file must live at ./logo.png (repository root).
          Fallback "T" tile appears if the file is missing. -->
     <a href="#home" class="header-logo" aria-label="Tanvir — home">
-      <img src="./logo.png" alt="Tanvir logo" width="48" height="48"
+      <img src="./logo.png" alt="Tanvir logo" width="48" height="48" decoding="async"
            onerror="this.style.display='none';this.nextElementSibling.style.display='grid';">
       <span class="header-logo__fallback" aria-hidden="true">T</span>
     </a>
@@ -1456,9 +1463,10 @@ body.menu-open{overflow:hidden}
     </div>
 
     <div class="hero__visual">
-      <!-- FIXED: real profile photo from ./profile.png (was: <i> + <p data-i18n="hero.portrait">) -->
+      <!-- LCP image. fetchpriority="high" tells the browser to fetch it
+           earlier; a matching <link rel="preload"> is in <head>. -->
       <div class="portrait-frame">
-        <img src="./profile.png" alt="Portrait of MD Tanvirul Islam (Tanvir)" width="760" height="950" loading="eager">
+        <img src="./profile.png" alt="Portrait of MD Tanvirul Islam (Tanvir)" width="760" height="950" loading="eager" fetchpriority="high" decoding="async">
       </div>
       <div class="floating-card floating-card--tl" aria-hidden="true">
         <i class="fa-solid fa-table-cells"></i> <span data-i18n="hero.float1">Spreadsheets</span>
@@ -1488,9 +1496,8 @@ body.menu-open{overflow:hidden}
   <div class="container">
     <div class="about__grid">
 
-      <!-- FIXED: real profile photo from ./profile.png (was: .about__visual-inner with placeholder text) -->
       <div class="about__visual" data-reveal>
-        <img src="./profile.png" alt="MD Tanvirul Islam (Tanvir)" width="600" height="600" loading="lazy">
+        <img src="./profile.png" alt="MD Tanvirul Islam (Tanvir)" width="600" height="600" loading="lazy" decoding="async">
       </div>
 
       <div data-reveal>
@@ -1716,7 +1723,7 @@ body.menu-open{overflow:hidden}
 
 <!-- ============================================================
      SECTION START: PORTFOLIO SECTION
-     All six thumbnails now use real <img> tags sourced from the
+     All six thumbnails use real <img> tags sourced from the
      repository root. The existing lightbox picks them up.
      ============================================================ -->
 <section class="section" id="portfolio">
@@ -1742,10 +1749,9 @@ body.menu-open{overflow:hidden}
 
     <div class="portfolio__grid" id="portfolioGrid">
 
-      <!-- FIXED: Spreadsheet Formatting → ./spreadsheet-formatting.png -->
       <article class="work-card" data-category="spreadsheet" data-reveal>
         <button type="button" class="work-card__thumb" aria-label="Preview: Spreadsheet Formatting">
-          <img src="./spreadsheet-formatting.png" alt="Spreadsheet formatting sample: raw data turned into a clean, filterable sheet" width="640" height="400" loading="lazy">
+          <img src="./spreadsheet-formatting.png" alt="Spreadsheet formatting sample: raw data turned into a clean, filterable sheet" width="640" height="400" loading="lazy" decoding="async">
           <span class="work-card__label" data-i18n="portfolio.sample">Sample placeholder</span>
         </button>
         <div class="work-card__body">
@@ -1759,10 +1765,9 @@ body.menu-open{overflow:hidden}
         </div>
       </article>
 
-      <!-- FIXED: Web Research Sample → ./web-research-sample.png -->
       <article class="work-card" data-category="research" data-reveal>
         <button type="button" class="work-card__thumb" aria-label="Preview: Web Research Sample">
-          <img src="./web-research-sample.png" alt="Web research sample: public information organised by topic" width="640" height="400" loading="lazy">
+          <img src="./web-research-sample.png" alt="Web research sample: public information organised by topic" width="640" height="400" loading="lazy" decoding="async">
           <span class="work-card__label" data-i18n="portfolio.sample">Sample placeholder</span>
         </button>
         <div class="work-card__body">
@@ -1776,10 +1781,9 @@ body.menu-open{overflow:hidden}
         </div>
       </article>
 
-      <!-- FIXED: Document Formatting → ./document-formatting.png -->
       <article class="work-card" data-category="document" data-reveal>
         <button type="button" class="work-card__thumb" aria-label="Preview: Document Formatting">
-          <img src="./document-formatting.png" alt="Document formatting sample: report with consistent headings, spacing and layout" width="640" height="400" loading="lazy">
+          <img src="./document-formatting.png" alt="Document formatting sample: report with consistent headings, spacing and layout" width="640" height="400" loading="lazy" decoding="async">
           <span class="work-card__label" data-i18n="portfolio.sample">Sample placeholder</span>
         </button>
         <div class="work-card__body">
@@ -1793,10 +1797,9 @@ body.menu-open{overflow:hidden}
         </div>
       </article>
 
-      <!-- FIXED: Canva Social Media Design → ./social-media-design.png -->
       <article class="work-card" data-category="canva" data-reveal>
         <button type="button" class="work-card__thumb" aria-label="Preview: Canva Social Media Design">
-          <img src="./social-media-design.png" alt="Canva social media design sample: a set of matching social media posts" width="640" height="400" loading="lazy">
+          <img src="./social-media-design.png" alt="Canva social media design sample: a set of matching social media posts" width="640" height="400" loading="lazy" decoding="async">
           <span class="work-card__label" data-i18n="portfolio.sample">Sample placeholder</span>
         </button>
         <div class="work-card__body">
@@ -1809,10 +1812,9 @@ body.menu-open{overflow:hidden}
         </div>
       </article>
 
-      <!-- FIXED: Canva Banner or Thumbnail → ./banner-thumbnail-design.png -->
       <article class="work-card" data-category="canva" data-reveal>
         <button type="button" class="work-card__thumb" aria-label="Preview: Canva Banner or Thumbnail">
-          <img src="./banner-thumbnail-design.png" alt="Canva banner and thumbnail design sample" width="640" height="400" loading="lazy">
+          <img src="./banner-thumbnail-design.png" alt="Canva banner and thumbnail design sample" width="640" height="400" loading="lazy" decoding="async">
           <span class="work-card__label" data-i18n="portfolio.sample">Sample placeholder</span>
         </button>
         <div class="work-card__body">
@@ -1825,10 +1827,9 @@ body.menu-open{overflow:hidden}
         </div>
       </article>
 
-      <!-- FIXED: Data Entry Sample → ./data-entry-sample.png -->
       <article class="work-card" data-category="data-entry" data-reveal>
         <button type="button" class="work-card__thumb" aria-label="Preview: Data Entry Sample">
-          <img src="./data-entry-sample.png" alt="Data entry sample: records entered into a structured spreadsheet" width="640" height="400" loading="lazy">
+          <img src="./data-entry-sample.png" alt="Data entry sample: records entered into a structured spreadsheet" width="640" height="400" loading="lazy" decoding="async">
           <span class="work-card__label" data-i18n="portfolio.sample">Sample placeholder</span>
         </button>
         <div class="work-card__body">
@@ -2447,7 +2448,6 @@ function t(key) {
   const unreplaced = [];
   document.querySelectorAll('[data-contact]').forEach(function (link) {
     const type = link.getAttribute('data-contact');
-    const label = link.querySelector('strong');
     if (type === 'email') {
       link.setAttribute('href', 'mailto:' + SITE_CONFIG.email);
       return;
@@ -2572,7 +2572,6 @@ function t(key) {
       if (val !== undefined && val !== key) el.setAttribute('placeholder', val);
     });
 
-    // Accessibility labels on lightbox buttons
     const lbClose = document.getElementById('lightboxClose');
     if (lbClose) lbClose.setAttribute('aria-label', t('lightbox.close'));
     const lbPrev = document.getElementById('lightboxPrev');
@@ -2665,6 +2664,10 @@ function t(key) {
 
 /* ============================================================
    JS SECTION: HEADER STATE, ACTIVE NAV LINK, SCROLL PROGRESS
+   ------------------------------------------------------------
+   PERF: all DOM reads are batched before any DOM writes so the
+   browser only performs one synchronous layout per scroll frame
+   instead of two.
    ============================================================ */
 (function scrollUI () {
   const header   = document.getElementById('header');
@@ -2676,23 +2679,29 @@ function t(key) {
     .filter(Boolean);
 
   function onScroll () {
+    /* ---- READ PHASE (no writes in between) ---- */
     const y = window.scrollY || window.pageYOffset;
-    if (header) header.classList.toggle('is-scrolled', y > 12);
-    if (progress) {
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const percent = docHeight > 0 ? (y / docHeight) * 100 : 0;
-      progress.style.width = Math.min(100, Math.max(0, percent)) + '%';
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const offset = y + 140;
+
+    let currentId = sections.length ? sections[0].id : '';
+    for (let i = 0; i < sections.length; i++) {
+      if (sections[i].offsetTop <= offset) currentId = sections[i].id;
     }
+
+    /* ---- WRITE PHASE ---- */
+    if (header) header.classList.toggle('is-scrolled', y > 12);
+
+    if (progress) {
+      const percent = docHeight > 0 ? (y / docHeight) * 100 : 0;
+      progress.style.width = (percent < 0 ? 0 : percent > 100 ? 100 : percent) + '%';
+    }
+
     if (backBtn) backBtn.classList.toggle('is-visible', y > 500);
 
-    const offset = y + 140;
-    let currentId = sections.length ? sections[0].id : '';
-    sections.forEach(function (section) {
-      if (section.offsetTop <= offset) currentId = section.id;
-    });
-    navLinks.forEach(function (link) {
-      link.classList.toggle('is-active', link.getAttribute('href') === '#' + currentId);
-    });
+    for (let j = 0; j < navLinks.length; j++) {
+      navLinks[j].classList.toggle('is-active', navLinks[j].getAttribute('href') === '#' + currentId);
+    }
   }
 
   let ticking = false;
@@ -2703,6 +2712,29 @@ function t(key) {
   }, { passive: true });
 
   onScroll();
+})();
+
+
+/* ============================================================
+   JS SECTION: PAUSE HERO ANIMATIONS WHEN OFF-SCREEN
+   ------------------------------------------------------------
+   The 4 infinite keyframe animations (.hero__glow, 3 orbs) keep
+   ticking on the compositor even after the user scrolls past the
+   hero. Pausing them when the hero leaves the viewport saves GPU
+   and battery, and there is no visible difference while the hero
+   is on screen.
+   ============================================================ */
+(function heroAnimations () {
+  const hero = document.getElementById('home');
+  if (!hero || !('IntersectionObserver' in window) || prefersReducedMotion) return;
+
+  const obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      hero.classList.toggle('hero--paused', !entry.isIntersecting);
+    });
+  }, { rootMargin: '120px' });
+
+  obs.observe(hero);
 })();
 
 
@@ -2870,6 +2902,7 @@ function t(key) {
       const im = document.createElement('img');
       im.src = img.currentSrc || img.src;
       im.alt = img.alt || (title ? title.textContent : '');
+      im.decoding = 'async';
       mediaEl.appendChild(im);
     } else {
       const wrap = document.createElement('div');
